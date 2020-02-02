@@ -1,0 +1,23 @@
+{
+  "name": "devdevdev",
+  "version": "0.0.0",
+  "description": "see README",
+  "scripts": {
+    "start": "node ./http.js",
+    "test": "echo 'TODO'",
+    "dev": "echo 'TODO'",
+    "dependencies": "echo 'in Nodejs `express` expected, npm i -g ...; `ndb` also recommended; '"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jimmont/devdevdev.git"
+  },
+  "keywords": [
+    "dev",
+    "http",
+    "etc"
+  ],
+  "author": "Jim Montgomery",
+  "license": "UNLICENSED except by explicit request;",
+  "homepage": "https://github.com/jimmont/devdevdev"
+}
