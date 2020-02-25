@@ -47,7 +47,7 @@ self.addEventListener('test', function(e){
 	case 'run':
 		const results = detail.results;
 		const tests = results.reduce(karmaFormat.group, []);
-debugger
+		// TODO problem with total 
 		karma.info({total: tests.length});
 		tests.forEach((test, i, list)=>{
 			karma.result(test);
