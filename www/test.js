@@ -11,7 +11,8 @@ import { describe, xdescribe, Test } from './test-bdd.js';
 const model = { };
 
 model.arrow = {};
-describe('arrow fn works', (it)=>{
+
+describe('test-bdd arrow fn works', (it)=>{
 	const item = model.arrow;
 	item.status = 0;
 	it.should('make assertions with arrow fn', (test)=>{
@@ -34,15 +35,38 @@ xdescribe('ignored', ()=>{
 });
 
 
-describe('named and anonymous functions work', function(it){
+describe('test-bdd named and anonymous functions work', function(it){
+	const hold = console;
+	const failMsg = 'example test failure';
+	this.before(()=>{
+		self.console = {
+			assert: function(truthy, msg){
+				if(!truthy){
+					model.error = msg;
+					if(failMsg !== msg){
+						debugger;
+						throw 'unexpected failure';
+					}
+				}
+			}
+		};
+	});
+	this.after(()=>{
+		self.console = hold;
+	});
+
 	this.should('make basic assertions, including following a failed one', function(){
 		this.assert(true, 'true');
-		this.assert(false, 'example test failure');
+		const result = this.assert(false, failMsg);
+		this.assert(console.log === undefined, 'intercept console');
+		this.assert(model.error === failMsg, 'expected console.assert result');
+		this.assert(result.success === false, 'result failed as expected');
 		this.assert(this.assert === this.expect, 'assert and expect are the same');
 		this.assert(this.xassert === this.xexpect, 'xassert and xexpect are the same');
 	});
 	model.async = 1;
-	describe('embedded tests work', function(it2){
+	describe('test-bdd embedded tests work', function(it2){
+		this.assert(console.log, 'console was restored as expected by after()');
 		this.should('work as expected', function(it3){
 			this.assert(this===it2 && this === it3, 'matching references');
 
@@ -52,7 +76,7 @@ describe('named and anonymous functions work', function(it){
 	});
 	model.async = 2;
 
-	describe('promise response', async function(){
+	describe('test-bdd promise response', async function(){
 		model.waiting = 1;
 		await Promise.resolve('promise-complete').then((result)=>{
 			this.result = result;

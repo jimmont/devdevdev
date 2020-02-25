@@ -1,46 +1,70 @@
 /*
-Karma Framework API
-Karma Framework connects existing testing libraries to Karma's API, so that their results can be displayed in a browser and sent back to the server.
+@since 2020-02-25T01:01:31.188Z
 
-Karma frameworks must implement a window.__karma__.start method that Karma will call to start test execution. This function is called with an object that has methods to send results back to karma:
+@summary basic bdd style test running for functional tests with karma
+@see https://karma-runner.github.io/latest/dev/plugins.html
 
+@description
 karma
-.result a single test has finished
+.start start test execution
 .complete the client completed execution of all the tests
 .error an error happened in the client
 .info other data (e.g. number of tests or debugging messages)
-Most commonly you'll use the result method to send individual test success or failure statuses. The method takes an object of the form:
-
+.result a single test has finished, object for individual test success or failure in the form:
 {
-    // test id
     id: String,
-
-     // test description
     description: String,
-
-    // the suite to which this test belongs. potentially nested.
     suite: Array[String],
-
-    // an array of string error messages that might explain a failure.
-    // this is required if success is false.
+    // an array of string error messages that might explain a failure--this is required if success is false.
     log: Array[String],
-
     success: Boolean, // pass / fail
-
     skipped: Boolean // skipped / ran
 }
 */
 const karma = self.__karma__ || {};
+const karmaFormat = {
+	log(assert, i){
+		return (assert.pending ? '?' : (assert.skipped ? '~' : ( assert.success ? '+':'-' ))) + JSON.stringify(assert.log);
+	}
+	,item(should, i, list){
+		return {
+			 id: `${ this.name }-should-${ i }`
+			,description: should.text
+			,suite: [ this.test.text ]
+			,log: should.log.map(karmaFormat.log)
+			,success: should.failed === 0
+			,skipped: should.skipped
+		};
+	}
+	,group(results, test, i, list){
+		results.push(...test.series.map(karmaFormat.item, {test, index: i, name: `test-${i}`}));
+		return results;
+	}
+};
+self.addEventListener('test', function(e){
+	const detail = e.detail;
+	switch(detail.type){
+	case 'run':
+		const results = detail.results;
+		const tests = results.reduce(karmaFormat.group, []);
+debugger
+		karma.info({total: tests.length});
+		tests.forEach((test, i, list)=>{
+			karma.result(test);
+		});
+	break;
+	case 'error':
+		karma.error(test.error);
+	break;
+	case 'complete':
+		karma.complete({coverage: self[Symbol.for('coverage')]});
+	break;
+	default:
+		karma.info(detail);
+	}
+});
 
-/*
-// TODO cleanup
-karma.start = function(config){
-	const karma = this;
-//	console.log('__karma__.start',karma, config);
-karma.info('starting...');
-	karma.info({total: 21});
-	// see $www/testing/karma-mocha/src/adapter.js
-
+function demo(){
 	karma.result({
 		//id: 'result0'
 		id: 'result-1abc'
@@ -48,7 +72,7 @@ karma.info('starting...');
 		,suite: ['eg~suite suite']
 		,log: [1234, 789, 10, 'okay']
 		,success: true 
-		,skipped: false
+		,skipped: true
 	});
 
 	karma.result({
@@ -77,52 +101,26 @@ karma.info('starting...');
 		,success: true 
 		,skipped: false
 	});
-	//karma.error(new Error('fake error'));
-	karma.complete({coverage: window[Symbol.for('coverage')]});
-
-	karma.info('pass 2');
-	karma.info({total: 2});
-	karma.result({
-		//id: 'result0'
-		id: 'result...1'
-		,description: 'rrrr'
-		,suite: ['other-suite']
-		,log: [1234, 789, 10, 'okay']
-		,success: true 
-		,skipped: false
-	});
-	karma.result({
-		//id: 'result0'
-		id: 'result...'
-		,description: 'bbbb'
-		,suite: ['other-suite']
-		,log: [1234, 789, 10, 'okay']
-		,success: true 
-		,skipped: false
-	});
-
-	karma.complete({coverage: window[Symbol.for('coverage')]});
-
-//		console.assert(1===2, '1 === 2');
 }
-//console.warn('cleanup TODO');
-*/
-
 /*
 	@class Test
+	@summary basic lightweight bdd test runner
 	@example
-	import describe from './<this>.js';
 
-	// async block
-	describe('something', function(done){
-		// sync block
+	import describe from './test-bdd.js';
+
+	describe('something', function(it){
 		this.should('make a few assertions', function(){
 			this.assert(true, 'passes');
 			this.assert(false === true, 'fails');
 		});
-
+		it.should(...)
 	});
 
+	describe('abc', (it)=>{
+		it.should(...);
+		return async function....;
+	})
 */
 class Test{
 	constructor(text, fn, config){
@@ -149,7 +147,8 @@ class Test{
 	afterEach(fn){ this._afterEach.push(fn); }
 	beforeEach(fn){ this._beforeEach.push(fn); }
 	runner(should, i){
-		this[Symbol.for('result')] = should.result;
+		const resultKey = Symbol.for('result');
+		this[resultKey] = should;
 		this._beforeEach.forEach(this.runEach, this);
 		const start = Date.now();
 		should.start = start;
@@ -157,7 +156,7 @@ class Test{
 		const end = Date.now();
 		should.time = end - start;
 		this._afterEach.forEach(this.runEach, this);
-		this[Symbol.for('result')] = null;
+		this[resultKey] = null;
 	}
 	run(sync=false){
 		let res, status = Symbol.for('status');
@@ -165,7 +164,14 @@ class Test{
 			this[status] = -1;
 			this.start = Date.now();
 			// describe('thing', function(it){...it.should/this.should}))
-			this.result = this.fn.call(this, this);
+			const result = this.fn.call(this, this);
+			this.result = result;
+			if(result instanceof Promise){
+				result
+					.then((res)=>{ this.result = res; return this; })
+					.catch((res)=>{ this.error = res; return Promise.reject(this); })
+					;
+			};
 			this._before.forEach(this.runEach, this);
 			// run each should w/ its assertions
 			this.series.forEach(this.runner, this);
@@ -180,17 +186,6 @@ class Test{
 		this.time = Date.now() - this.start;
 		return res;
 	}
-	find(item){
-		return item[this.key] === this.value;
-	}
-/*
-format results and have constructor try to run
- */
-	report(){
-		// reset success && skipped to show any single failure and any skipped
-		this.skipped = this.series.find(this.find, {key: 'skipped', value: true});
-		this.success = undefined === this.series.find(this.find, {key: 'success', value: false});
-	}
 /*
 should
 xshould
@@ -200,14 +195,14 @@ add item w/ fn+text to series list
 */
 	expecting(text, fn, config){
 		return Object.assign({
-			text, fn, result: null, log: [], skipped: true, time: 0, start: 0
+			text, fn, result: null, log: [], skipped: true, time: 0, start: 0, failed: 0
 		}, config);
 	}
 	xshould(text, fn, config){
-		return this.expecting(text, fn, {...config, skip:true});
+		return this.expecting(text, fn, {...config, skipped:true});
 	}
 	should(text, fn, config){
-		const expect = this.expecting(text, fn, {...config, skip: false})
+		const expect = this.expecting(text, fn, {...config, skipped: false})
 		this.series.push(expect);
 		return expect;
 	}
@@ -225,8 +220,11 @@ collect into results if possible (allow calling assert directly without a list)
 		}, assert);
 		if(this){
 			// fault tolerant
-			const list = this[Symbol.for('result')];
-			if(list) list.push(result);
+			const should = this[Symbol.for('result')];
+			if(should){
+				should.log.push(result);
+				if(!result.pending && !result.skipped && result.success === false && !!result.result && result.hasOwnProperty('result')) should.failed++;
+			};
 		};
 		return result;
 	}
@@ -275,38 +273,28 @@ run => pass to karma when all are finished
 		};
 		return Promise.resolve( Array.from(this.list) );
 	}
+	/*
+	@summary make it possible to respond to events on the window
+	@example
+	window.addEventListener('test', function(e){
+		console.log(`${ e.type }-${ e.detail.type }:`, e.detail);
+		// logs: "test-error:", {...}
+	});
+	*/
 	static dispatch(type, payload){
 		self.dispatchEvent(new CustomEvent('test', {detail: {type, ...payload}, cancelable: true, bubbles: false}));
 	}
 	static start(config){
-		console.log('karma.start', {config, karma});
+
 		this.run()
 		.then(results => {
-			this.dispatch('info', results);
-			console.warn(`
-TODO finish with karma calls
-results ${ results.length }
--------------------------------
-`);
-debugger
-			karma.info({total: results.length});
-console.warn('TODO reformat for karma.result({...})',results);
-//			results.forEach(karma.result);
+			this.dispatch('run', {results, text: `run() ${ results.length } tests`});
 		})
 		.catch(test=>{
-			this.dispatch('error', results);
-
-			console.error(test.error);
-			console.warn(test);
-			karma.error(test.error);
+			this.dispatch('error', {test});
 		})
 		.finally(()=>{
-			const results = Array.from(this.list);
-			this.dispatch('complete', results);
-			console.log(results);
-
-debugger
-			karma.complete({coverage: self[Symbol.for('coverage')]});
+			this.dispatch('complete', {test: this});
 		})
 		;
 	}
