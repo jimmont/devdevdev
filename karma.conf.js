@@ -5,13 +5,17 @@ config.set({
 		clearContext: false
 	},
 	frameworks: [],
+	//frameworks: ['mocha'],
 	//frameworks: ['mocha', 'chai'],
 	// see https://github.com/karma-runner/karma/issues/3335
 	files: [
 		 {pattern: 'www/**/*.js', type: 'module'}
 		//,{pattern: 'www/**/*.js', included: false}
 	],
-	exclude: [ ],
+	exclude: [
+	//	 {pattern: 'www/**/test-bdd.*'}
+		
+	],
 	// available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
 	preprocessors: { },
 	// test results reporter to use

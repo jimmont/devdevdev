@@ -20,8 +20,17 @@ karma
     success: Boolean, // pass / fail
     skipped: Boolean // skipped / ran
 }
+
+TODO
+* separate karma/test-runner format
+* allow handling via events on the window (eg notifications or similar when running)
+* basic tests run, synchronously or async as promise
+* run them as they come
+
 */
-const karma = self.__karma__ || {};
+
+const karma = window.__karma__ || {};
+
 const karmaFormat = {
 	log(assert, i){
 		return (assert.pending ? '?' : (assert.skipped ? '~' : ( assert.success ? '+':'-' ))) + JSON.stringify(assert.log);
@@ -41,7 +50,7 @@ const karmaFormat = {
 		return results;
 	}
 };
-self.addEventListener('test', function(e){
+window.addEventListener('test', function(e){
 	const detail = e.detail;
 	switch(detail.type){
 	case 'run':
@@ -52,12 +61,16 @@ self.addEventListener('test', function(e){
 		tests.forEach((test, i, list)=>{
 			karma.result(test);
 		});
+demo();
+
 	break;
 	case 'error':
 		karma.error(test.error);
 	break;
 	case 'complete':
-		karma.complete({coverage: self[Symbol.for('coverage')]});
+demo();
+		karma.complete({coverage: window[Symbol.for('coverage')]});
+demo();
 	break;
 	default:
 		karma.info(detail);
@@ -65,6 +78,9 @@ self.addEventListener('test', function(e){
 });
 
 function demo(){
+
+	karma.info({total: Math.floor(Math.random() * 97) + 1});
+
 	karma.result({
 		//id: 'result0'
 		id: 'result-1abc'
@@ -168,8 +184,14 @@ class Test{
 			this.result = result;
 			if(result instanceof Promise){
 				result
-					.then((res)=>{ this.result = res; return this; })
-					.catch((res)=>{ this.error = res; return Promise.reject(this); })
+					.then((res)=>{ 
+						this.result = res; 
+						return this; 
+					})
+					.catch((res)=>{ 
+						this.error = res;
+						return Promise.reject(this); 
+					})
 					;
 			};
 			this._before.forEach(this.runEach, this);
@@ -252,6 +274,7 @@ run => pass to karma when all are finished
 		// return new Test(...)
 		const test = new this(label, fn, config);
 		this.add(test);
+		test.run(test);
 		return test;
 	}
 	static xdescribe(label, fn, config={}){
@@ -262,16 +285,21 @@ run => pass to karma when all are finished
 	}
 	static run(){
 		const list = Array.from(this.list).filter(describe=>{ return describe.status === 0; });
-		if(list.length){
-			return Promise.all( list.map(describe=>{
-				// return a promise or the result
-				return describe.run(describe);
-			}) ).finally(list=>{
-				// run any new/remaining
-				return this.run();
-			});
+
+		const promised = list.filter(describe=>{
+			describe.run();
+			return describe.result instanceof Promise;
+		});
+		
+		if(promised.length){
+			return Promise.all(promised)
+				.finally(list=>{
+					return this.run();
+				});
 		};
+
 		return Promise.resolve( Array.from(this.list) );
+
 	}
 	/*
 	@summary make it possible to respond to events on the window
@@ -282,10 +310,9 @@ run => pass to karma when all are finished
 	});
 	*/
 	static dispatch(type, payload){
-		self.dispatchEvent(new CustomEvent('test', {detail: {type, ...payload}, cancelable: true, bubbles: false}));
+		window.dispatchEvent(new CustomEvent('test', {detail: {type, ...payload}, cancelable: true, bubbles: false}));
 	}
 	static start(config){
-
 		this.run()
 		.then(results => {
 			this.dispatch('run', {results, text: `run() ${ results.length } tests`});
@@ -308,5 +335,5 @@ karma.start = Test.start.bind(Test);
 
 const describe = Test.describe.bind(Test);
 const xdescribe = Test.xdescribe.bind(Test);
-export { describe as default, Test, describe, xdescribe, karma }
+export { describe as default, Test, describe, xdescribe }
 
