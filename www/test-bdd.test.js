@@ -1,4 +1,4 @@
-import { describe, xdescribe, Test } from './test-bdd.js';
+import { describe, xdescribe, Describe } from './test-bdd.js';
 
 /*
 	basic tests of the library
@@ -37,7 +37,7 @@ xdescribe('ignored', ()=>{
 
 describe('test-bdd named and anonymous functions work', function(it){
 	const hold = console;
-	const failMsg = 'example test failure';
+	const failMsg = 'test-bdd example test failure';
 	this.before(()=>{
 		self.console = {
 			assert: function(truthy, msg){
