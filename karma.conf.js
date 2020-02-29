@@ -13,7 +13,7 @@ config.set({
 		//,{pattern: 'www/**/*.js', included: false}
 	],
 	exclude: [
-	//	 {pattern: 'www/**/test-bdd.*'}
+	//	 {pattern: 'www/**/untested.*'}
 		
 	],
 	// available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor

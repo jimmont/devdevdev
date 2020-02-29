@@ -41,8 +41,8 @@ const karmaFormat = {
 		return {
 			 id: `${ this.name }-should-${ i }`
 			,description: 'description..'+should.text
-			,suite: [ this.test.text, 'soup', 'fries', 'sweet suite' ]
-			,log: ['SHAZAM', ...log]
+			,suite: [ this.test.text ]
+			,log: [...log]
 			,success: should.failed === 0
 			,skipped: should.skip
 			,duration: 191
@@ -306,7 +306,7 @@ class Describe extends Should{
 	run(){
 		let res;
 		try{
-console.warn('describe.run()',this.text);
+console.warn('#describe.run()',this.text);
 			// describe('thing', function(it){...it.should/this.should}))
 			super.run();
 			this._before.forEach(this.runEach, this);
