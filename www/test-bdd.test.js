@@ -18,7 +18,7 @@ describe('test-bdd arrow fn works', (it)=>{
 	it.should('make assertions with arrow fn', (test)=>{
 		item.status++;
 		it.assert(1 === item.status, 'make a basic assertion');
-		it.assert(it === test, 'passed argument matches')
+		it.assert(it.assert === test.assert, 'passed argument matches')
 	});
 	it.assert(0 === item.status, 'make another assertion anywhere, before each should()');
 	it.xassert(false, 'ignore a failing assertion');
@@ -68,7 +68,7 @@ describe('test-bdd named and anonymous functions work', function(it){
 	describe('test-bdd embedded tests work', function(it2){
 		this.assert(console.log, 'console was restored as expected by after()');
 		this.should('work as expected', function(it3){
-			this.assert(this===it2 && this === it3, 'matching references');
+			this.assert(this.assert===it2.assert && this === it3, 'matching references');
 
 			this.assert(model.ignored === true, 'xdescribe was ignored as expected');
 			this.assert(model.async === 2, 'describe statements are async');

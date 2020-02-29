@@ -141,6 +141,34 @@ var now = Date.now();
 		,endTime: now + 741
 	});
 }
+
+const skipped = Symbol.for('skipped');
+class Test{
+	constructor(truth=skipped, ...explanation){
+		this.result = truth;
+		this.log = explanation;
+		this.skipped = true;
+		this.success = false;
+		if(truth !== skipped){
+			this.skipped = false;
+			this.success = !!truth;
+			console.assert(truth, ...explanation);
+		}
+	}
+	xassert(truth, ...explanation){
+		this.skipped = true;
+		this.log.push(...explanation);
+		return this;
+	}
+	assert(truth, ...explanation){
+		this.result = truth;
+		this.success = !!truth;
+		this.skipped = false;
+		this.log.push(...explanation);
+		console.assert(truth, ...explanation);
+		return this;
+	}
+}
 /*
 	@class Should 
 	@summary basic lightweight bdd test runner
@@ -161,18 +189,18 @@ var now = Date.now();
 		return async function....;
 	})
 */
-class Should{
+class Should extends Test{
 	constructor(text, fn, config){
+		super();
 		Object.assign(this, {
 			text
 			,fn
-			,result: null
 			,error: undefined
-			,log: []
+
 			,start: new Date()
 			,time: 0
+
 			,status: 0
-			,pass: false
 			,skipped: false
 			,success: false
 		}, config);
@@ -224,17 +252,15 @@ class Should{
 		return this.log.filter(this._failures, this);
 	}
 	xassert(truth, ...explanation){
-		const result = {truth, explanation, skipped: true, assert: true};
+		const result = new Test();
 		this.log.push(result);
 		this._skipped++;
 		return result;
 	}
 	assert(truth, ...explanation){
-		const success = !!truth;
-		const result = {truth, explanation, skipped: false, success, assert: true};
+		const result = new Test(truth, ...explanation);
 		this.log.push(result);
-		if(!success) this._failed++;
-		console.assert(truth, ...explanation);
+		if(!result.success) this._failed++;
 		return result;
 	}
 }
@@ -393,7 +419,6 @@ if(payload.results){
 	static start(config){
 		this.run()
 		.then(results => {
-debugger;
 			this.dispatch('run', {results, text: `run() ${ results.length } tests`});
 		})
 		.catch(test=>{
