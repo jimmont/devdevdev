@@ -152,12 +152,12 @@ class Test{
 		this.result = skip;
 		this.log = [];
 		this.skip = false;
-		this.success = false;
+		this.ok = false;
 	}
 	xassert(truth, ...explanation){
 		this.result = truth;
 		this.skip = true;
-		this.success = !!truth;
+		this.ok = !!truth;
 		this.log = explanation;
 		return this;
 	}
@@ -292,26 +292,29 @@ class Describe extends Should{
 	runEach(fn){ fn.call(this, this); }
 	runner(task, i){
 		this._beforeEach.forEach(this.runEach, this);
-		let result;
 		if(typeof task.run === 'function'){
 			// this.should() | this.describe()
-			result = task.run();
-		}else if(typeof task === 'function'){
+			task.run();
+		}else{
 			// assert(...)
-			result = task.call(this);
+debugger;
+throw 'task.call(this)';
+			task.call(this);
 		}
-		this.log.push(result);
+		this.log.push(task);
 		this._afterEach.forEach(this.runEach, this);
+
+		return task.result instanceof Promise;
 	}
 	run(){
 		let res;
 		try{
-console.warn('#describe.run()',this.text);
-			// describe('thing', function(it){...it.should/this.should}))
 			super.run();
 			this._before.forEach(this.runEach, this);
-			this.series.forEach(this.runner, this);
+			const promised = this.series.filter(this.runner, this);
 			this._after.forEach(this.runEach, this);
+
+if(promised.length) console.warn('PROMISED', promised);
 
 			if(this.result instanceof Promise){
 				return this.result
@@ -352,14 +355,19 @@ console.warn('#describe.run()',this.text);
 	describe(text, fn, config){
 		const describe = new Describe(text, fn, config);
 		// anyone can call from/on class
-		if(this && this.series) this.series.push( describe );
+		if(this && this.series){
+debugger;
+			this.series.push( describe );
+		}
 		return describe;
 	}
 	xshould(text, fn, config){
-		return this.series.push( new Should(text, fn, {...config, skip: true}) );
+		const should = new Should(text, fn, {...config, skip: true});
+		return this.series.push( should );
 	}
 	should(text, fn, config){
-		return this.series.push( new Should(text, fn, config) );
+		const should = new Should(text, fn, config);
+		return this.series.push( should );
 	}
 /*
 describe
