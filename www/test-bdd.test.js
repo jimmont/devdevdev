@@ -1,4 +1,4 @@
-import { describe, xdescribe, Describe } from './test-bdd.js';
+import { describe, xdescribe, Describe } from './untested.js';
 
 /*
 	basic tests of the library
@@ -12,7 +12,7 @@ const model = { };
 
 model.arrow = {};
 
-describe('test-bdd arrow fn works', (it)=>{
+describe('untested arrow fn works', (it)=>{
 	const item = model.arrow;
 	item.status = 0;
 	it.should('make assertions with arrow fn', (test)=>{
@@ -35,9 +35,9 @@ xdescribe('ignored', ()=>{
 });
 
 
-describe('test-bdd named and anonymous functions work', function(it){
+describe('untested named and anonymous functions work', function(it){
 	const hold = console;
-	const failMsg = 'test-bdd example test failure';
+	const failMsg = 'untested example test failure';
 	this.before(()=>{
 		self.console = {
 			assert: function(truthy, msg){
@@ -65,19 +65,21 @@ describe('test-bdd named and anonymous functions work', function(it){
 		this.assert(this.xassert === this.xexpect, 'xassert and xexpect are the same');
 	});
 	model.async = 1;
-	describe('test-bdd embedded tests work', function(it2){
+	describe('untested embedded tests work', function(it2){
 		this.assert(console.log, 'console was restored as expected by after()');
 		this.should('work as expected', function(it3){
 			this.assert(this.assert===it2.assert && this === it3, 'matching references');
 
 			this.assert(model.ignored === true, 'xdescribe was ignored as expected');
-			this.assert(model.async === 2, 'describe statements are async');
+			this.assert(model.async === 1, 'describe statements are synchronous when they are');
 		});
 	});
 	model.async = 2;
 
-	describe('test-bdd promise response', async function(){
+	describe('untested promise response', async function(){
 		model.waiting = 1;
+		this.assert(3 === model.async, 'describe statements can be async');
+
 		await Promise.resolve('promise-complete').then((result)=>{
 			this.result = result;
 			model.waiting = 2;
@@ -89,4 +91,5 @@ describe('test-bdd named and anonymous functions work', function(it){
 		});
 		model.waiting = 3;
 	});
+	model.async = 3;
 });

@@ -44,7 +44,7 @@ const karmaFormat = {
 			,suite: [ this.test.text, 'soup', 'fries', 'sweet suite' ]
 			,log: ['SHAZAM', ...log]
 			,success: should.failed === 0
-			,skipped: should.skipped
+			,skipped: should.skip
 			,duration: 191
 			,total: 191
 			,time: 191
@@ -57,8 +57,12 @@ const karmaFormat = {
 		return results;
 	}
 };
+window[Symbol.for('untested-events')] = new Set();
 window.addEventListener('test', function(e){
 	const detail = e.detail;
+	// TODO is this useful?
+	window[Symbol.for('untested-events')].add(e);
+
 	switch(detail.type){
 	case 'run':
 		const results = detail.results;
@@ -142,29 +146,24 @@ var now = Date.now();
 	});
 }
 
-const skipped = Symbol.for('skipped');
+const skip = Symbol.for('skip');
 class Test{
-	constructor(truth=skipped, ...explanation){
-		this.result = truth;
-		this.log = explanation;
-		this.skipped = true;
+	constructor(){
+		this.result = skip;
+		this.log = [];
+		this.skip = false;
 		this.success = false;
-		if(truth !== skipped){
-			this.skipped = false;
-			this.success = !!truth;
-			console.assert(truth, ...explanation);
-		}
 	}
 	xassert(truth, ...explanation){
-		this.skipped = true;
-		this.log.push(...explanation);
+		this.result = truth;
+		this.skip = true;
+		this.success = !!truth;
+		this.log = explanation;
 		return this;
 	}
 	assert(truth, ...explanation){
-		this.result = truth;
-		this.success = !!truth;
-		this.skipped = false;
-		this.log.push(...explanation);
+		this.xassert(truth, ...explanation);
+		this.skip = false;
 		console.assert(truth, ...explanation);
 		return this;
 	}
@@ -201,8 +200,8 @@ class Should extends Test{
 			,time: 0
 
 			,status: 0
-			,skipped: false
-			,success: false
+			,skip: false
+			,ok: false
 		}, config);
 	}
 	run(){
@@ -212,7 +211,7 @@ class Should extends Test{
 			this.result = null;
 			this.time = 0;
 			this._failed = 0;
-			this._skipped = 0;
+			this._skip = 0;
 			this.start = Date.now();
 
 			const result = this.fn.call(this, this);
@@ -223,44 +222,44 @@ class Should extends Test{
 					this.time = Date.now() - this.start;
 					this.result = res;
 					this.status = 1;
-					this.success = this._failed === 0;
+					this.ok = this._failed === 0;
 					return this;
 				})
 				.catch(res=>{
 					this.time = Date.now() - this.start;
 					this.error = res;
 					this.status = -2;
-					this.success = false;
+					this.ok = false;
 					return Promise.reject(this);
 				})
 				;
 			}else{
 				this.status = 1;
-				this.success = true;
+				this.ok = true;
 			}
 		}catch(err){
 			this.status = -2;
-			this.success = false;
+			this.ok = false;
 			this.error = err;
 		};
 		this.time = Date.now() - this.start;
 
 		return this;
 	}
-	_failures(entry){ return entry.assert && !entry.skipped && !entry.success; }
+	_failures(entry){ return entry.assert && !entry.skip && !entry.ok; }
 	failed(){
 		return this.log.filter(this._failures, this);
 	}
 	xassert(truth, ...explanation){
-		const result = new Test();
+		const result = new Test().xassert(truth, ...explanation);
 		this.log.push(result);
-		this._skipped++;
+		this._skip++;
 		return result;
 	}
 	assert(truth, ...explanation){
-		const result = new Test(truth, ...explanation);
+		const result = new Test().assert(truth, ...explanation);
 		this.log.push(result);
-		if(!result.success) this._failed++;
+		if(!result.ok) this._failed++;
 		return result;
 	}
 }
@@ -321,7 +320,7 @@ console.warn('describe.run()',this.text);
 					this.result = res;
 					this.status = 1;
 					// TODO confirm
-					this.success = this._failed === 0;
+					this.ok = this._failed === 0;
 					return this;
 				})
 				.catch((err)=>{
@@ -329,7 +328,7 @@ console.warn('describe.run()',this.text);
 					// TODO confirm
 					this.error = res;
 					this.status = -2;
-					this.success = false;
+					this.ok = false;
 					return Promise.reject(this);
 				})
 				;
@@ -339,13 +338,13 @@ console.warn('describe.run()',this.text);
 			this.error = err;
 		};
 		this.status = 1;
-		//this.success = true???;
+		//this.ok = true???;
 		this.time = Date.now() - this.start;
 
 		return this;
 	}
 	xdescribe(text, fn, config){
-		const describe = new Describe(text, fn, {...config, skipped: true, status: -3});
+		const describe = new Describe(text, fn, {...config, skip: true, status: -3});
 		// anyone can call from/on class
 		if(this && this.series) this.series.push( describe );
 		return describe;
@@ -357,7 +356,7 @@ console.warn('describe.run()',this.text);
 		return describe;
 	}
 	xshould(text, fn, config){
-		return this.series.push( new Should(text, fn, {...config, skipped: true}) );
+		return this.series.push( new Should(text, fn, {...config, skip: true}) );
 	}
 	should(text, fn, config){
 		return this.series.push( new Should(text, fn, config) );
@@ -412,7 +411,7 @@ run => pass to karma when all are finished
 	static dispatch(type, payload){
 console.log('dispatch(test)',type, payload.text);
 if(payload.results){
-	payload.results.forEach(item=>console.warn('>>',item.text, item.skipped, item.success, item.log.length, item.log))
+	payload.results.forEach(item=>console.warn('>>',item.text, item.skip, item.ok, item.log.length, item.log))
 }
 		window.dispatchEvent(new CustomEvent('test', {detail: {type, ...payload}, cancelable: true, bubbles: false}));
 	}
