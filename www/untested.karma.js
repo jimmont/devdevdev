@@ -69,7 +69,7 @@ window.addEventListener('untested', function(e){
 
 	switch(detail.type){
 	case 'run':
-		const results = detail.results;
+		const results = detail.info.results;
 		const tests = results.reduce(karmaFormat.group, []);
 		// TODO problem with total 
 		karma.info({total: tests.length});
@@ -85,6 +85,7 @@ demo();
 	break;
 	case 'complete':
 demo();
+debugger;
 		karma.complete({coverage: window[Symbol.for('coverage')]});
 console.warn('<---->');
 demo();

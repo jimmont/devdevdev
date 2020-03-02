@@ -111,9 +111,14 @@ const util = Object.defineProperties({}, {
 		,enumerable: true
 	}
 	,proxy: {
-		get: function($, key){
-			return $[key][this[Symbol.for('platform')]];
-		}
+		value: new Proxy(chars, {
+			// always returns a string
+			get: function($, key){
+				const options = chars[key];
+				if(!options) return '';
+				return options[ util.platform ] || options[ 0 ];
+			}
+		})
 		,enumerable: true
 	}
 });

@@ -1,6 +1,57 @@
 /*
 @since 2020-02-25T01:01:31.188Z
 
+@example
+import { it } from './untested.js';
+
+// methods:
+ it.
+	describe('description', function(describe-instance))
+	should('description', function(should-instance))
+	assert(truthy, ...any-explanatory, see console.assert)
+// return values of each pushed into respective instance.log[]
+// function can have any scope set
+// can be a promise or function, can return a promise
+it.describe('feature', async function(it)...);
+it.describe('feature', function(it)...);
+it.describe('feature', (it)=>{...})
+it.describe('feature', (it)=>{
+	return Promise.all([fetch(...), ...]);
+})
+// promises resolution completes test
+
+it.describe('feature', function(it){
+	it.assert(it === this, 'arguments[0] === this');
+	it.assert(it instanceof Describe);
+
+	// describe-instances can do (should can't):
+	it.before(function(it))
+	it.after(function(it))
+	it.beforeEach(function(it))
+	it.afterEach(function(it))
+
+	it.should('do something', (it2)=>{
+		it2.assert(it2 !== it);
+		it2.assert(it2 instanceof Should);
+		it2.assert(it2.describe === undefined, 'no describe() on Should instances');
+		// all assertions added to the item they were asserted on
+		// added to outer describe (it) log
+		it.assert(true, 'ok!');
+		it.assert(false, 'wrong!');
+		// added to containing should (it2) log
+		it2.assert(it2);
+	});
+	// assert runs before same block level should and describe statements
+	it.assert(true);
+	it.describe(...);
+	it.should(...);
+
+	// ignored
+	it.xassert();
+	it.xdescribe(...);
+	it.xshould(...);
+});
+
 */
 /* detect global/window/self in browser, deno, nodejs
 including where 'this' is undefined */
@@ -9,7 +60,7 @@ const self = new Function('return this')();
 let eventCapable = self && self.addEventListener && self.CustomEvent;
 function noop(){}
 /* communicate with others via events */
-let dispatch = !eventCapable ? noop : function dispatch(name='untested', type='', ...info){
+let dispatch = !eventCapable ? noop : function dispatch(name='untested', type='', info){
 		self.dispatchEvent(new CustomEvent(name, {detail: {type, info}, cancelable: true, bubbles: false}));
 }
 ;
@@ -54,7 +105,7 @@ class Test{
 		return this;
 	}
 	dispatch(type, event){
-		Test.dispatch('untested', type, {event});
+		Test.dispatch(Describe.eventType, type, event);
 	}
 }
 /*
@@ -136,7 +187,7 @@ class Should extends Test{
 		return this;
 	}
 	_failures(entry){ return entry.assert && !entry.skip && !entry.ok; }
-	failed(){
+	get failed(){
 		return this.log.filter(this._failures, this);
 	}
 	xassert(truth, ...explanation){
@@ -199,7 +250,7 @@ throw 'task.call(this)';
 		let res;
 		try{
 			/* make it possible to use 'describe()' in the current scope */
-			super.run( this.describe.bind(this) );
+			super.run( this );
 			this._before.forEach(this.runEach, this);
 			const promised = this.series.filter(this.runner, this);
 			this._after.forEach(this.runEach, this);
@@ -268,7 +319,7 @@ run => pass to karma when all are finished
 		// return new Describe(...)
 		const test = new this(label, fn, config);
 		this.add(test);
-		if(this.ready) test.run(test);
+		if(this.ready && this.ran) test.run(test);
 		return test;
 	}
 	static xdescribe(label, fn, config={}){
@@ -279,7 +330,33 @@ run => pass to karma when all are finished
 	static add(test){
 		return this.list.add(test);
 	}
-	static run(){
+	static test(name, fn){
+		let test;
+		if(typeof name === 'string'){
+			if(typeof fn !== 'function'){
+				throw new Error('Missing test function');
+				if(!name) throw new Error("The name of test case can't be empty");
+
+				test = this.describe(name, fn);
+			}
+		}else if(typeof name === 'function'){
+			if(!name.name) throw new Error("Test function can't be anonymous");
+			test = this.describe(name.name, name);
+		}else if(typeof name === 'object'){
+			if(!name.fn || typeof name.fn !== 'function') throw Error("Missing test function");
+
+			let text = name.name || name.fn.name;
+			if(!text || typeof text !== 'string') throw Error("The name of test case or named function required.");
+			test = this.describe(name, fn);
+		}else{
+			throw new Error("Invalid input, required: test(name, fn) test(function named(){}) test({name, fn})");
+		}
+		this.add(test);
+		
+	}
+	static runTests(){
+		this.ran = true;
+
 		const list = Array.from(this.list).filter(describe=>{ return describe.status === 0; });
 
 		const promised = list.filter(describe=>{
@@ -290,7 +367,7 @@ run => pass to karma when all are finished
 		if(promised.length){
 			return Promise.all(promised)
 				.finally(()=>{
-					return this.run();
+					return this.runTests();
 				});
 		};
 
@@ -308,19 +385,20 @@ run => pass to karma when all are finished
 	static start(config){
 		this.ready = true;
 
-		this.run()
+		return this.runTests()
 		.then(results => {
-			this.dispatch('run', {results, text: `run() ${ results.length } tests`});
+			dispatch(this.eventType, 'run', {results, text: `runTests() ${ results.length } tests`});
 		})
 		.catch(test=>{
-			this.dispatch('error', {test});
+			dispatch(this.eventType, 'error', {test});
 		})
 		.finally(()=>{
-			this.dispatch('complete', {test: this});
+			dispatch(this.eventType, 'complete', {test: this});
 		})
 		;
 	}
 }
+Describe.eventType = 'untested';
 Describe.list = Describe.list || new Set();
 if(eventCapable){
 	self.addEventListener('untested-start', Describe.start.bind(Describe), {once: true});
