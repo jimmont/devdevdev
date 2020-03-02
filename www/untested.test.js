@@ -1,4 +1,4 @@
-import { describe, xdescribe, Describe } from './untested.js';
+import it, { Describe, Should, Test } from './untested.js';
 
 /*
 	basic tests of the library
@@ -12,7 +12,7 @@ const model = { };
 
 model.arrow = {};
 
-describe('untested arrow fn works', (it)=>{
+it.describe('untested arrow fn works', (it)=>{
 	const item = model.arrow;
 	item.status = 0;
 	it.should('make assertions with arrow fn', (test)=>{
@@ -31,13 +31,13 @@ describe('untested arrow fn works', (it)=>{
 })
 
 model.ignored = true;
-xdescribe('ignored', ()=>{
+it.xdescribe('ignored', ()=>{
 	model.ignored = false;
 	this.assert(false, 'this is ignored in xdescribe');
 });
 
 
-describe('untested named and anonymous functions work', function(it){
+it.describe('untested named and anonymous functions work, sync with async inside', function(it){
 	const hold = console;
 	const failMsg = 'untested example test failure';
 	this.before(()=>{
@@ -70,21 +70,20 @@ describe('untested named and anonymous functions work', function(it){
 	model.shouldbe4 = 4;
 	model.async = 1;
 console.warn('TODO', this.describe !== describe);
-debugger;
-	describe('untested embedded tests work', function(it2){
+	this.describe('untested embedded tests work', function(it2){
 		this.assert(console.log, 'console was restored as expected by after()');
+throw 'inner describe';
 		this.should('work as expected', function(it3){
 			this.assert(this === it3, 'matching references');
 			this.assert(this.assert===it2.assert, 'matching methods');
 
 			this.assert(model.ignored === true, 'xdescribe was ignored as expected');
-debugger
 			this.assert(model.async === 2, 'describe statements are synchronous when they are');
 		});
 	});
 	model.async = 2;
 
-	describe('untested promise response', async function(){
+	this.describe('untested promise response', async function(){
 		model.waiting = 1;
 		this.assert(3 === model.async, 'describe statements can be async');
 
@@ -96,4 +95,8 @@ debugger
 		this.assert(2 === model.waiting, 'awaited resolution, last');
 	});
 	model.async = 3;
+});
+
+it.describe('async', function(it){
+	// TODO
 });

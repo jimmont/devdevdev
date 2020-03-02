@@ -14,6 +14,7 @@ config.set({
 	],
 	exclude: [
 	//	 {pattern: 'www/**/untested.*'}
+		'www/assert.js'
 		
 	],
 	// available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor

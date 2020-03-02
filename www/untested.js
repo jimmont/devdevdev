@@ -1,149 +1,35 @@
 /*
 @since 2020-02-25T01:01:31.188Z
 
-@summary basic bdd style test running for functional tests with karma
-@see https://karma-runner.github.io/latest/dev/plugins.html
-
-@description
-karma
-.start start test execution
-.complete the client completed execution of all the tests
-.error an error happened in the client
-.info other data (e.g. number of tests or debugging messages)
-.result a single test has finished, object for individual test success or failure in the form:
-{
-    id: String,
-    description: String,
-    suite: Array[String],
-    // an array of string error messages that might explain a failure--this is required if success is false.
-    log: Array[String],
-    success: Boolean, // pass / fail
-    skipped: Boolean // skipped / ran
-}
-
-TODO
-* separate karma/test-runner format
-* allow handling via events on the window (eg notifications or similar when running)
-* basic tests run, synchronously or async as promise
-* run them as they come
-
 */
+/* detect global/window/self in browser, deno, nodejs
+including where 'this' is undefined */
+const self = new Function('return this')();
 
-const karma = window.__karma__ || {};
-
-const karmaFormat = {
-	log(assert, i){
-		return (assert.pending ? '?' : (assert.skipped ? '~' : ( assert.success ? '+':'-' ))) + JSON.stringify(assert.log);
+let eventCapable = self && self.addEventListener && self.CustomEvent;
+function noop(){}
+/* communicate with others via events */
+let dispatch = !eventCapable ? noop : function dispatch(name='untested', type='', ...info){
+		self.dispatchEvent(new CustomEvent(name, {detail: {type, info}, cancelable: true, bubbles: false}));
+}
+;
+// Nodejs specific TODO is this needed? TODO test
+if(!eventCapable && self && self.process && self.process.on){
+	self.dispatchEvent = (event)=>{
+		return self.process.emit(event.type, event);
 	}
-	,item(should, i, list){
-	const now = Date.now();
-	const log = should.log.map(karmaFormat.log)
-		return {
-			 id: `${ this.name }-should-${ i }`
-			,description: 'description..'+should.text
-			,suite: [ this.test.text ]
-			,log: [...log]
-			,success: should.failed === 0
-			,skipped: should.skip
-			,duration: 191
-			,total: 191
-			,time: 191
-			,startTime: now
-			,endTime: now + 191
-		};
+	self.CustomEvent = class CustomEvent{
+		constructor(type, config){
+			Object.assign(this, {type}, config);
+		}
 	}
-	,group(results, test, i, list){
-		results.push(...test.series.map(karmaFormat.item, {test, index: i, name: `test-${i}`}));
-		return results;
+	self.removeEventListener = function(type, fn){
+		return self.process.off(type, fn);
 	}
-};
-window[Symbol.for('untested-events')] = new Set();
-window.addEventListener('test', function(e){
-	const detail = e.detail;
-	// TODO is this useful?
-	window[Symbol.for('untested-events')].add(e);
-
-	switch(detail.type){
-	case 'run':
-		const results = detail.results;
-		const tests = results.reduce(karmaFormat.group, []);
-		// TODO problem with total 
-		karma.info({total: tests.length});
-
-		tests.forEach((test, i, list)=>{
-			karma.result(test);
-		});
-demo();
-
-	break;
-	case 'error':
-		karma.error(test.error);
-	break;
-	case 'complete':
-demo();
-		karma.complete({coverage: window[Symbol.for('coverage')]});
-console.warn('<---->');
-demo();
-console.warn('<---->');
-	break;
-	default:
-		karma.info(detail);
+	self.addEventListener = function(type, fn, config={}){
+		return self.process[config && config.once ? 'once':'on'](type, fn);
 	}
-});
-
-function demo(){
-return console.warn('DISABLE DEMO');
-	karma.info({total: Math.floor(Math.random() * 97) + 1});
-	karma.info({total: 77});
-	karma.info({total: 77});
-	karma.info({total: 77});
-	karma.info({total: 77});
-var now = Date.now();
-	karma.result({
-		//id: 'result0'
-		id: 'result-1abc'
-		,description: 'demo> example -test result'
-		,suite: ['eg~suite suite']
-		,log: [1234, 789, 10, 'okay']
-		,time: 741
-		,startTime: now
-		,endTime: now + 741
-		,success: true 
-		,skipped: false
-	});
-
-	karma.result({
-		id: 'result-1abc'
-		// ,description: test.title
-		,description: 'demo> example +test result'
-		//,suite: []
-		,suite: ['eg~suite suite']
-		,log: [new Error('nope').message, 'error message(s) explaining failure']
-		,success: false
-		,skipped: false
-		,pending: false
-		// skipped ? 0 : duration
-		,time: false ? 0 : 0
-		,time: 741
-		,startTime: now
-		,endTime: now + 741
-		//,assertionErrors
-		//,start: test.start
-		//,end: Date.now()
-	});
-
-	karma.result({
-		//id: 'result0'
-		id: 'result-1abc'
-		,description: 'example -test result'
-		,suite: ['eg~suite suite', 'OTHER suite']
-		,log: []
-		,success: true 
-		,skipped: false
-		,time: 741
-		,startTime: now
-		,endTime: now + 741
-	});
+	eventCapable = true;
 }
 
 const skip = Symbol.for('skip');
@@ -166,6 +52,9 @@ class Test{
 		this.skip = false;
 		console.assert(truth, ...explanation);
 		return this;
+	}
+	dispatch(type, event){
+		Test.dispatch('untested', type, {event});
 	}
 }
 /*
@@ -197,24 +86,24 @@ class Should extends Test{
 			,error: undefined
 
 			,start: new Date()
-			,time: 0
+			,time: -1
 
 			,status: 0
 			,skip: false
 			,ok: false
 		}, config);
 	}
-	run(){
+	run(...args){
 		try{
 			this.status = -1;
 			this.log = [];
 			this.result = null;
-			this.time = 0;
-			this._failed = 0;
-			this._skip = 0;
+			this.time = -1;
+			this._fail = [];
+			this._skip = [];
 			this.start = Date.now();
 
-			const result = this.fn.call(this, this);
+			const result = this.fn.call(this, this, ...args);
 			this.result = result;
 			if(result instanceof Promise){
 				return result
@@ -222,7 +111,7 @@ class Should extends Test{
 					this.time = Date.now() - this.start;
 					this.result = res;
 					this.status = 1;
-					this.ok = this._failed === 0;
+					this.ok = this._fail.length === 0;
 					return this;
 				})
 				.catch(res=>{
@@ -233,10 +122,10 @@ class Should extends Test{
 					return Promise.reject(this);
 				})
 				;
-			}else{
-				this.status = 1;
-				this.ok = true;
-			}
+			};
+
+			this.status = 1;
+			this.ok = true;
 		}catch(err){
 			this.status = -2;
 			this.ok = false;
@@ -253,13 +142,13 @@ class Should extends Test{
 	xassert(truth, ...explanation){
 		const result = new Test().xassert(truth, ...explanation);
 		this.log.push(result);
-		this._skip++;
+		this._skip.push(result);
 		return result;
 	}
 	assert(truth, ...explanation){
 		const result = new Test().assert(truth, ...explanation);
 		this.log.push(result);
-		if(!result.ok) this._failed++;
+		if(!result.ok) this._fail.push(result);
 		return result;
 	}
 }
@@ -309,7 +198,8 @@ throw 'task.call(this)';
 	run(){
 		let res;
 		try{
-			super.run();
+			/* make it possible to use 'describe()' in the current scope */
+			super.run( this.describe.bind(this) );
 			this._before.forEach(this.runEach, this);
 			const promised = this.series.filter(this.runner, this);
 			this._after.forEach(this.runEach, this);
@@ -323,7 +213,7 @@ if(promised.length) console.warn('PROMISED', promised);
 					this.result = res;
 					this.status = 1;
 					// TODO confirm
-					this.ok = this._failed === 0;
+					this.ok = this._fail.length === 0;
 					return this;
 				})
 				.catch((err)=>{
@@ -336,11 +226,12 @@ if(promised.length) console.warn('PROMISED', promised);
 				})
 				;
 			};
+			this.status = 1;
 		}catch(err){
 			this.status = -2;
 			this.error = err;
+console.error(err, this);
 		};
-		this.status = 1;
 		//this.ok = true???;
 		this.time = Date.now() - this.start;
 
@@ -355,10 +246,8 @@ if(promised.length) console.warn('PROMISED', promised);
 	describe(text, fn, config){
 		const describe = new Describe(text, fn, config);
 		// anyone can call from/on class
-		if(this && this.series){
-debugger;
-			this.series.push( describe );
-		}
+		this.series.push( describe );
+
 		return describe;
 	}
 	xshould(text, fn, config){
@@ -379,7 +268,7 @@ run => pass to karma when all are finished
 		// return new Describe(...)
 		const test = new this(label, fn, config);
 		this.add(test);
-		test.run(test);
+		if(this.ready) test.run(test);
 		return test;
 	}
 	static xdescribe(label, fn, config={}){
@@ -416,14 +305,9 @@ run => pass to karma when all are finished
 		// logs: "test-error:", {...}
 	});
 	*/
-	static dispatch(type, payload){
-console.log('dispatch(test)',type, payload.text);
-if(payload.results){
-	payload.results.forEach(item=>console.warn('>>',item.text, item.skip, item.ok, item.log.length, item.log))
-}
-		window.dispatchEvent(new CustomEvent('test', {detail: {type, ...payload}, cancelable: true, bubbles: false}));
-	}
 	static start(config){
+		this.ready = true;
+
 		this.run()
 		.then(results => {
 			this.dispatch('run', {results, text: `run() ${ results.length } tests`});
@@ -438,10 +322,8 @@ if(payload.results){
 	}
 }
 Describe.list = Describe.list || new Set();
+if(eventCapable){
+	self.addEventListener('untested-start', Describe.start.bind(Describe), {once: true});
+}
 
-karma.start = Describe.start.bind(Describe);
-
-const describe = Describe.describe.bind(Describe);
-const xdescribe = Describe.xdescribe.bind(Describe);
-export { describe as default, describe, xdescribe, Describe, Should }
-
+export { Describe as default, Describe, Should, Test, self, dispatch }
