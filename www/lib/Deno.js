@@ -1,6 +1,3 @@
-import {
-AssertionError, assert, assertArrayContains, assertEquals, assertMatch, assertNotEquals, assertNotEOF, assertStrContains, assertStrictEq, assertThrows, assertThrowsAsync, equal, fail, unimplemented, unreachable
-} from "./std/testing/asserts.js";
 /*
 @since 2020-03-04T02:58:42.267Z
 
@@ -74,7 +71,7 @@ if(!eventCapable && self.process && self.process.on){
 function noop(){}
 const Deno = {
 	errors: {
-		NotFound
+		NotFound: {}
 	}
 	,noop
 	// user configurable properties
@@ -108,10 +105,11 @@ const Deno = {
 		this.add(test);
 		
 	}
+	,_tests: new Set()
 	,runTests(){
 		this.ran = true;
 
-		const list = Array.from(this.list).filter(describe=>{ return describe.status === 0; });
+		const list = Array.from(this._tests).filter(describe=>{ return describe.status === 0; });
 
 		const promised = list.filter(describe=>{
 			describe.run();
@@ -125,12 +123,29 @@ const Deno = {
 				});
 		};
 
-		return Promise.resolve( Array.from(this.list) );
+		return Promise.resolve( Array.from(this._tests) );
 
 	}
 	,start(config){
 // TODO TODO
-		import('./std/testing/asserts.js');
+		import('./std/testing/asserts.js')
+		.then(imports=>{
+/*
+import {
+AssertionError, assert, assertArrayContains, assertEquals, assertMatch, assertNotEquals, assertNotEOF, assertStrContains, assertStrictEq, assertThrows, assertThrowsAsync, equal, fail, unimplemented, unreachable
+} from "./std/testing/asserts.js";
+*/
+console.log(imports);
+// apply in the runner
+			this.imports = imports;
+			return imports;
+		})
+		.catch(err=>{
+console.error(err);
+debugger;
+		})
+		;
+
 		this.ready = true;
 
 		return this.runTests()
@@ -148,6 +163,18 @@ const Deno = {
 };
 self.addEventListener('deno-start-tests', Deno.runTests.bind(Deno), {once: true});
 
-Object.freeze(Deno);
-Object.defineProperty(self, 'Deno', {value: Deno});
-export { Deno as default, Deno, self };
+const DenoProxy = new Proxy(Deno, {
+	get: function($, key){
+		const val = Deno[ key ];
+		console.warn(`Deno[ ${key} ]:`, val);
+		return val;
+	}
+	,set: function($, key, val){
+		console.warn(`Deno[ ${key} ]:`, val);
+		$[key] = val;
+		return true;
+	}
+});
+Object.defineProperty(self, 'Deno', {value: DenoProxy});
+
+export { DenoProxy as default, DenoProxy, self };
