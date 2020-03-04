@@ -67,9 +67,9 @@ var __values = (this && this.__values) || function(o) {
     };
     throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 };
-import { SEP_PATTERN, globToRegExp, isAbsolute, isGlob, isWindows, joinGlobs, normalize } from "../path/mod.ts";
-import { walk, walkSync } from "./walk.ts";
-import { assert } from "../testing/asserts.ts";
+import { SEP_PATTERN, globToRegExp, isAbsolute, isGlob, isWindows, joinGlobs, normalize } from "../path/mod.js";
+import { walk, walkSync } from "./walk.js";
+import { assert } from "../testing/asserts.js";
 var cwd = Deno.cwd, stat = Deno.stat, statSync = Deno.statSync;
 // TODO: Maybe make this public somewhere.
 function split(path) {

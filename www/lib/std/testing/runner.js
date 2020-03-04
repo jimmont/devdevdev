@@ -1,8 +1,8 @@
 #!/usr/bin/env -S deno -A
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { parse } from "../flags/mod.ts";
-import { expandGlob } from "../fs/mod.ts";
-import { isWindows, join } from "../path/mod.ts";
+import { parse } from "../flags/mod.js";
+import { expandGlob } from "../fs/mod.js";
+import { isWindows, join } from "../path/mod.js";
 const { args, cwd, exit } = Deno;
 const DIR_GLOBS = [join("**", "?(*_)test.{js,ts}")];
 function showHelp() {
@@ -115,7 +115,7 @@ function renderTestFile(testModules) {
  *
  * Example:
  *
- *       runTestModules({ include: ["**\/*_test.ts", "**\/test.ts"] });
+ *       runTestModules({ include: ["**\/*_test.js", "**\/test.js"] });
  *
  * Any matched directory `<dir>` will expand to:
  *   <dir>/**\/?(*_)test.{js,ts}
@@ -157,7 +157,7 @@ export async function runTestModules({ include = ["."], exclude = [], allowNone 
     // user is probably working on project in this directory or even
     // cd'ed into current directory to quickly run test from this directory.
     const root = Deno.env("DENO_DIR") || Deno.cwd();
-    const testFilePath = join(root, ".deno.test.ts");
+    const testFilePath = join(root, ".deno.test.js");
     const data = new TextEncoder().encode(testFile);
     await Deno.writeFile(testFilePath, data);
     // Import temporary test file and delete it immediately after importing so it's not cluttering disk.

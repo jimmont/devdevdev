@@ -35,9 +35,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { assert, assertEquals, assertStrContains } from "../testing/asserts.ts";
-import { BufReader } from "../io/bufio.ts";
-import { TextProtoReader } from "../textproto/mod.ts";
+import { assert, assertEquals, assertStrContains } from "../testing/asserts.js";
+import { BufReader } from "../io/bufio.js";
+import { TextProtoReader } from "../textproto/mod.js";
 var test = Deno.test;
 var fileServer;
 function startFileServer() {
@@ -52,7 +52,7 @@ function startFileServer() {
                             "run",
                             "--allow-read",
                             "--allow-net",
-                            "http/file_server.ts",
+                            "http/file_server.js",
                             ".",
                             "--cors"
                         ],
@@ -213,7 +213,7 @@ test(function servePermissionDenied() {
             switch (_b.label) {
                 case 0:
                     deniedServer = Deno.run({
-                        args: [Deno.execPath(), "run", "--allow-net", "http/file_server.ts"],
+                        args: [Deno.execPath(), "run", "--allow-net", "http/file_server.js"],
                         stdout: "piped",
                         stderr: "piped"
                     });
@@ -254,7 +254,7 @@ test(function printHelp() {
             switch (_a.label) {
                 case 0:
                     helpProcess = Deno.run({
-                        args: [Deno.execPath(), "run", "http/file_server.ts", "--help"],
+                        args: [Deno.execPath(), "run", "http/file_server.js", "--help"],
                         stdout: "piped"
                     });
                     assert(helpProcess.stdout != null);

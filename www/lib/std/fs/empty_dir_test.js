@@ -35,9 +35,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { assert, assertEquals, assertStrContains, assertThrows, assertThrowsAsync } from "../testing/asserts.ts";
-import * as path from "../path/mod.ts";
-import { emptyDir, emptyDirSync } from "./empty_dir.ts";
+import { assert, assertEquals, assertStrContains, assertThrows, assertThrowsAsync } from "../testing/asserts.js";
+import * as path from "../path/mod.js";
+import { emptyDir, emptyDirSync } from "./empty_dir.js";
 var testdataDir = path.resolve("fs", "testdata");
 Deno.test(function emptyDirIfItNotExist() {
     return __awaiter(this, void 0, void 0, function () {
@@ -98,7 +98,7 @@ Deno.test(function emptyDirIfItExist() {
                 case 1:
                     // create test dir
                     _a.sent();
-                    testDirFile = path.join(testNestDir, "test.ts");
+                    testDirFile = path.join(testNestDir, "test.js");
                     // create test file in test dir
                     return [4 /*yield*/, Deno.writeFile(testDirFile, new Uint8Array())];
                 case 2:
@@ -168,7 +168,7 @@ Deno.test(function emptyDirSyncIfItExist() {
     var testNestDir = path.join(testDir, "nest");
     // create test dir
     emptyDirSync(testNestDir);
-    var testDirFile = path.join(testNestDir, "test.ts");
+    var testDirFile = path.join(testNestDir, "test.js");
     // create test file in test dir
     Deno.writeFileSync(testDirFile, new Uint8Array());
     // before empty: make sure file/directory exist
@@ -280,7 +280,7 @@ var _loop_1 = function (s) {
                         if (s.write) {
                             args.push("--allow-write");
                         }
-                        args.push(path.join(testdataDir, s.async ? "empty_dir.ts" : "empty_dir_sync.ts"));
+                        args.push(path.join(testdataDir, s.async ? "empty_dir.js" : "empty_dir_sync.js"));
                         args.push("testfolder");
                         stdout = Deno.run({
                             stdout: "piped",

@@ -35,13 +35,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { assertEquals, assertThrows, assertThrowsAsync, assert } from "../testing/asserts.ts";
-import * as path from "../path/mod.ts";
-import { copy, copySync } from "./copy.ts";
-import { exists, existsSync } from "./exists.ts";
-import { ensureDir, ensureDirSync } from "./ensure_dir.ts";
-import { ensureFile, ensureFileSync } from "./ensure_file.ts";
-import { ensureSymlink, ensureSymlinkSync } from "./ensure_symlink.ts";
+import { assertEquals, assertThrows, assertThrowsAsync, assert } from "../testing/asserts.js";
+import * as path from "../path/mod.js";
+import { copy, copySync } from "./copy.js";
+import { exists, existsSync } from "./exists.js";
+import { ensureDir, ensureDirSync } from "./ensure_dir.js";
+import { ensureFile, ensureFileSync } from "./ensure_file.js";
+import { ensureSymlink, ensureSymlinkSync } from "./ensure_symlink.js";
 var testdataDir = path.resolve("fs", "testdata");
 // TODO(axetroy): Add test for Windows once symlink is implemented for Windows.
 var isWindows = Deno.build.os === "win";

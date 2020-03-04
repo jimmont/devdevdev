@@ -6,9 +6,9 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
     return r;
 };
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { deepAssign } from "../util/deep_assign.ts";
-import { pad } from "../strings/pad.ts";
-import { assert } from "../testing/asserts.ts";
+import { deepAssign } from "../util/deep_assign.js";
+import { pad } from "../strings/pad.js";
+import { assert } from "../testing/asserts.js";
 var KeyValuePair = /** @class */ (function () {
     function KeyValuePair(key, value) {
         this.key = key;

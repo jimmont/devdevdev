@@ -1,5 +1,5 @@
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { assert } from "../testing/asserts.ts";
+import { assert } from "../testing/asserts.js";
 export function deepAssign(target) {
     var sources = [];
     for (var _i = 1; _i < arguments.length; _i++) {

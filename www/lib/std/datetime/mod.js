@@ -1,6 +1,6 @@
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { pad } from "../strings/pad.ts";
-import { assert } from "../testing/asserts.ts";
+import { pad } from "../strings/pad.js";
+import { assert } from "../testing/asserts.js";
 function execForce(reg, pat) {
     var v = reg.exec(pat);
     assert(v != null);

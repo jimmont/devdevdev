@@ -1,9 +1,9 @@
 // Copyright the Browserify authors. MIT License.
-import { assertEquals } from "../testing/asserts.ts";
-import * as path from "../path/mod.ts";
-import { isSubdir, getFileInfoType } from "./utils.ts";
-import { ensureFileSync } from "./ensure_file.ts";
-import { ensureDirSync } from "./ensure_dir.ts";
+import { assertEquals } from "../testing/asserts.js";
+import * as path from "../path/mod.js";
+import { isSubdir, getFileInfoType } from "./utils.js";
+import { ensureFileSync } from "./ensure_file.js";
+import { ensureDirSync } from "./ensure_dir.js";
 var testdataDir = path.resolve("fs", "testdata");
 Deno.test(function _isSubdir() {
     var pairs = [

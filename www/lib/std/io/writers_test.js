@@ -35,10 +35,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var copy = Deno.copy, test = Deno.test;
-import { assertEquals } from "../testing/asserts.ts";
-import { StringWriter } from "./writers.ts";
-import { StringReader } from "./readers.ts";
-import { copyN } from "./ioutil.ts";
+import { assertEquals } from "../testing/asserts.js";
+import { StringWriter } from "./writers.js";
+import { StringReader } from "./readers.js";
+import { copyN } from "./ioutil.js";
 test(function ioStringWriter() {
     return __awaiter(this, void 0, void 0, function () {
         var w, r;

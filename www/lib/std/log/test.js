@@ -49,9 +49,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
 var test = Deno.test;
-import { assertEquals } from "../testing/asserts.ts";
-import * as log from "./mod.ts";
-import { LogLevel } from "./levels.ts";
+import { assertEquals } from "../testing/asserts.js";
+import * as log from "./mod.js";
+import { LogLevel } from "./levels.js";
 var TestHandler = /** @class */ (function (_super) {
     __extends(TestHandler, _super);
     function TestHandler() {

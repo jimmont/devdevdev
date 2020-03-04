@@ -1,6 +1,6 @@
 var test = Deno.test;
-import { assertEquals, assert } from "../testing/asserts.ts";
-import { createRequire } from "./module.ts";
+import { assertEquals, assert } from "../testing/asserts.js";
+import { createRequire } from "./module.js";
 // TS compiler would try to resolve if function named "require"
 // Thus suffixing it with require_ to fix this...
 var require_ = createRequire(import.meta.url);

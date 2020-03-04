@@ -7,8 +7,8 @@
  *
  */
 const { test } = Deno;
-import { assertEquals } from "../testing/asserts.ts";
-import { format } from "./format.ts";
+import { assertEquals } from "../testing/asserts.js";
+import { format } from "./format.js";
 // eslint-disable-next-line max-len
 // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-explicit-any
 function returnArguments(...args) {

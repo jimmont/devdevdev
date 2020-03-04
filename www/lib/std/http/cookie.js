@@ -1,5 +1,5 @@
-import { assert } from "../testing/asserts.ts";
-import { toIMF } from "../datetime/mod.ts";
+import { assert } from "../testing/asserts.js";
+import { toIMF } from "../datetime/mod.js";
 function toString(cookie) {
     var out = [];
     out.push(cookie.name + "=" + cookie.value);

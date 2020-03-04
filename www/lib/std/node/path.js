@@ -1,2 +1,2 @@
-export * from "../path/mod.ts";
+export * from "../path/mod.js";
 //# sourceMappingURL=path.js.map

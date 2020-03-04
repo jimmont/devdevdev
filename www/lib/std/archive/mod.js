@@ -1,2 +1,2 @@
-export * from "./tar.ts";
+export * from "./tar.js";
 //# sourceMappingURL=mod.js.map

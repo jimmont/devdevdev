@@ -7,7 +7,7 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
 };
 var e_1, _a;
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { serve } from "./server.ts";
+import { serve } from "./server.js";
 var addr = Deno.args[0] || "127.0.0.1:4500";
 var server = serve(addr);
 var body = new TextEncoder().encode("Hello World");

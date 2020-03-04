@@ -1,8 +1,8 @@
 // Test cases copied from https://github.com/LinusU/base32-encode/blob/master/test.js
 // Copyright (c) 2016-2017 Linus Unnebäck. MIT license.
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { assertEquals, assert } from "../testing/asserts.ts";
-import { encode, decode } from "./base32.ts";
+import { assertEquals, assert } from "../testing/asserts.js";
+import { encode, decode } from "./base32.js";
 // Lifted from https://stackoverflow.com/questions/38987784
 var fromHexString = function (hexString) {
     return new Uint8Array(hexString.match(/.{1,2}/g).map(function (byte) { return parseInt(byte, 16); }));

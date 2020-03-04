@@ -18,10 +18,10 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
-import { notImplemented } from "./_utils.ts";
-import { validateIntegerRange } from "./util.ts";
-import { EOL as fsEOL } from "../fs/eol.ts";
-import { process } from "./process.ts";
+import { notImplemented } from "./_utils.js";
+import { validateIntegerRange } from "./util.js";
+import { EOL as fsEOL } from "../fs/eol.js";
+import { process } from "./process.js";
 var SEE_GITHUB_ISSUE = "See https://github.com/denoland/deno/issues/3802";
 arch[Symbol.toPrimitive] = function () { return arch(); };
 endianness[Symbol.toPrimitive] = function () { return endianness(); };

@@ -46,13 +46,13 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
 };
 // Ported from
 // https://github.com/golang/go/blob/master/src/net/http/responsewrite_test.go
-import { TextProtoReader } from "../textproto/mod.ts";
-import { assert, assertEquals, assertNotEOF } from "../testing/asserts.ts";
-import { ServerRequest, serve } from "./server.ts";
-import { BufReader, BufWriter } from "../io/bufio.ts";
-import { delay, deferred } from "../util/async.ts";
-import { encode, decode } from "../strings/mod.ts";
-import { mockConn } from "./mock.ts";
+import { TextProtoReader } from "../textproto/mod.js";
+import { assert, assertEquals, assertNotEOF } from "../testing/asserts.js";
+import { ServerRequest, serve } from "./server.js";
+import { BufReader, BufWriter } from "../io/bufio.js";
+import { delay, deferred } from "../util/async.js";
+import { encode, decode } from "../strings/mod.js";
+import { mockConn } from "./mock.js";
 var Buffer = Deno.Buffer, test = Deno.test;
 var responseTests = [
     // Default response
@@ -459,7 +459,7 @@ test("destroyed connection", function () { return __awaiter(void 0, void 0, void
         switch (_a.label) {
             case 0:
                 p = Deno.run({
-                    args: [Deno.execPath(), "--allow-net", "http/testdata/simple_server.ts"],
+                    args: [Deno.execPath(), "--allow-net", "http/testdata/simple_server.js"],
                     stdout: "piped"
                 });
                 _a.label = 1;
@@ -510,7 +510,7 @@ test("serveTLS", function () { return __awaiter(void 0, void 0, void 0, function
                         Deno.execPath(),
                         "--allow-net",
                         "--allow-read",
-                        "http/testdata/simple_https_server.ts"
+                        "http/testdata/simple_https_server.js"
                     ],
                     stdout: "piped"
                 });

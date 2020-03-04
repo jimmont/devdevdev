@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
 var run = Deno.run;
-import { assertEquals } from "../testing/asserts.ts";
+import { assertEquals } from "../testing/asserts.js";
 /** Example of how to do basic tests */
 Deno.test(function t1() {
     assertEquals("hello", "hello");
@@ -56,7 +56,7 @@ Deno.test(function catSmoke() {
                             Deno.execPath(),
                             "run",
                             "--allow-read",
-                            "examples/cat.ts",
+                            "examples/cat.js",
                             "README.md"
                         ],
                         stdout: "piped"

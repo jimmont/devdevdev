@@ -36,11 +36,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var Buffer = Deno.Buffer, copy = Deno.copy, open = Deno.open, remove = Deno.remove;
-import { assert, assertEquals, assertThrows, assertThrowsAsync } from "../testing/asserts.ts";
+import { assert, assertEquals, assertThrows, assertThrowsAsync } from "../testing/asserts.js";
 var test = Deno.test;
-import * as path from "../path/mod.ts";
-import { MultipartReader, MultipartWriter, isFormFile, matchAfterPrefix, scanUntilBoundary } from "./multipart.ts";
-import { StringWriter } from "../io/writers.ts";
+import * as path from "../path/mod.js";
+import { MultipartReader, MultipartWriter, isFormFile, matchAfterPrefix, scanUntilBoundary } from "./multipart.js";
+import { StringWriter } from "../io/writers.js";
 var e = new TextEncoder();
 var boundary = "--abcde";
 var dashBoundary = e.encode("--" + boundary);

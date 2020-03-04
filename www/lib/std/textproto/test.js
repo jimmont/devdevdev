@@ -38,8 +38,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { append } from "./mod.ts";
-import { assertEquals } from "../testing/asserts.ts";
+import { append } from "./mod.js";
+import { assertEquals } from "../testing/asserts.js";
 var test = Deno.test;
 test(function textprotoAppend() {
     return __awaiter(this, void 0, void 0, function () {

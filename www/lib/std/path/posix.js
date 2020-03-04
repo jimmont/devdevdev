@@ -1,8 +1,8 @@
 // Copyright the Browserify authors. MIT License.
 // Ported from https://github.com/browserify/path-browserify/
 var cwd = Deno.cwd;
-import { CHAR_DOT, CHAR_FORWARD_SLASH } from "./constants.ts";
-import { assertPath, normalizeString, isPosixPathSeparator, _format } from "./utils.ts";
+import { CHAR_DOT, CHAR_FORWARD_SLASH } from "./constants.js";
+import { assertPath, normalizeString, isPosixPathSeparator, _format } from "./utils.js";
 export var sep = "/";
 export var delimiter = ":";
 // path.resolve([from ...], to)

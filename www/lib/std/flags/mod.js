@@ -9,7 +9,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { assert } from "../testing/asserts.ts";
+import { assert } from "../testing/asserts.js";
 var DEFAULT_OPTIONS = {
     unknown: function (i) { return i; },
     boolean: false,

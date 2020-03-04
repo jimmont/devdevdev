@@ -67,15 +67,15 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
             r[k] = a[j];
     return r;
 };
-import { decode, encode } from "../strings/mod.ts";
-import { hasOwnProperty } from "../util/has_own_property.ts";
-import { BufReader, BufWriter, UnexpectedEOFError } from "../io/bufio.ts";
-import { readLong, readShort, sliceLongToBytes } from "../io/ioutil.ts";
-import { Sha1 } from "./sha1.ts";
-import { writeResponse } from "../http/io.ts";
-import { TextProtoReader } from "../textproto/mod.ts";
-import { deferred } from "../util/async.ts";
-import { assertNotEOF } from "../testing/asserts.ts";
+import { decode, encode } from "../strings/mod.js";
+import { hasOwnProperty } from "../util/has_own_property.js";
+import { BufReader, BufWriter, UnexpectedEOFError } from "../io/bufio.js";
+import { readLong, readShort, sliceLongToBytes } from "../io/ioutil.js";
+import { Sha1 } from "./sha1.js";
+import { writeResponse } from "../http/io.js";
+import { TextProtoReader } from "../textproto/mod.js";
+import { deferred } from "../util/async.js";
+import { assertNotEOF } from "../testing/asserts.js";
 export var OpCode;
 (function (OpCode) {
     OpCode[OpCode["Continue"] = 0] = "Continue";

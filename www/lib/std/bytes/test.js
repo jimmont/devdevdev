@@ -1,6 +1,6 @@
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { findIndex, findLastIndex, equal, hasPrefix, repeat } from "./mod.ts";
-import { assertEquals, assertThrows } from "../testing/asserts.ts";
+import { findIndex, findLastIndex, equal, hasPrefix, repeat } from "./mod.js";
+import { assertEquals, assertThrows } from "../testing/asserts.js";
 Deno.test(function bytesfindIndex1() {
     var i = findIndex(new Uint8Array([1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 3]), new Uint8Array([0, 1, 2]));
     assertEquals(i, 2);

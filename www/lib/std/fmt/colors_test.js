@@ -1,7 +1,7 @@
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { assertEquals } from "../testing/asserts.ts";
-import * as c from "./colors.ts";
-import "../examples/colors.ts";
+import { assertEquals } from "../testing/asserts.js";
+import * as c from "./colors.js";
+import "../examples/colors.js";
 Deno.test(function singleColor() {
     assertEquals(c.red("foo bar"), "[31mfoo bar[39m");
 });

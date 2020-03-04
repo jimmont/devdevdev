@@ -48,12 +48,12 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
             r[k] = a[j];
     return r;
 };
-import { UnexpectedEOFError, BufWriter } from "../io/bufio.ts";
-import { TextProtoReader } from "../textproto/mod.ts";
-import { assert } from "../testing/asserts.ts";
-import { encoder } from "../strings/mod.ts";
-import { ServerRequest } from "./server.ts";
-import { STATUS_TEXT } from "./http_status.ts";
+import { UnexpectedEOFError, BufWriter } from "../io/bufio.js";
+import { TextProtoReader } from "../textproto/mod.js";
+import { assert } from "../testing/asserts.js";
+import { encoder } from "../strings/mod.js";
+import { ServerRequest } from "./server.js";
+import { STATUS_TEXT } from "./http_status.js";
 export function emptyReader() {
     return {
         read: function (_) {

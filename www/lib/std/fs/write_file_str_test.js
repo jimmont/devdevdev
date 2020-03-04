@@ -34,9 +34,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { assertEquals } from "../testing/asserts.ts";
-import * as path from "../path/mod.ts";
-import { writeFileStr, writeFileStrSync } from "./write_file_str.ts";
+import { assertEquals } from "../testing/asserts.js";
+import * as path from "../path/mod.js";
+import { writeFileStr, writeFileStrSync } from "./write_file_str.js";
 var testdataDir = path.resolve("fs", "testdata");
 Deno.test(function testReadFileSync() {
     var jsonFile = path.join(testdataDir, "write_file_1.json");

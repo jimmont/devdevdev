@@ -41,8 +41,8 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
     function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
     function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
 };
-import { parse } from "../flags/mod.ts";
-import { readStringDelim } from "../io/bufio.ts";
+import { parse } from "../flags/mod.js";
+import { readStringDelim } from "../io/bufio.js";
 var args = Deno.args, exit = Deno.exit, stdin = Deno.stdin;
 /* eslint-disable-next-line max-len */
 // See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AsyncFunction.

@@ -36,8 +36,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
 var Buffer = Deno.Buffer, mkdir = Deno.mkdir, open = Deno.open;
-import * as path from "../path/mod.ts";
-import { encode } from "../strings/mod.ts";
+import * as path from "../path/mod.js";
+import { encode } from "../strings/mod.js";
 // `off` is the offset into `dst` where it will at which to begin writing values
 // from `src`.
 // Returns the number of bytes copied.

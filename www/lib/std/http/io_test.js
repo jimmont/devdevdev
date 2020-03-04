@@ -34,14 +34,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { AssertionError, assertThrowsAsync, assertEquals, assert, assertNotEOF, assertNotEquals } from "../testing/asserts.ts";
-import { bodyReader, writeTrailers, readTrailers, parseHTTPVersion, readRequest, writeResponse } from "./io.ts";
-import { encode, decode } from "../strings/mod.ts";
-import { BufReader, UnexpectedEOFError } from "../io/bufio.ts";
-import { chunkedBodyReader } from "./io.ts";
-import { ServerRequest } from "./server.ts";
-import { StringReader } from "../io/readers.ts";
-import { mockConn } from "./mock.ts";
+import { AssertionError, assertThrowsAsync, assertEquals, assert, assertNotEOF, assertNotEquals } from "../testing/asserts.js";
+import { bodyReader, writeTrailers, readTrailers, parseHTTPVersion, readRequest, writeResponse } from "./io.js";
+import { encode, decode } from "../strings/mod.js";
+import { BufReader, UnexpectedEOFError } from "../io/bufio.js";
+import { chunkedBodyReader } from "./io.js";
+import { ServerRequest } from "./server.js";
+import { StringReader } from "../io/readers.js";
+import { mockConn } from "./mock.js";
 var Buffer = Deno.Buffer, test = Deno.test;
 test("bodyReader", function () { return __awaiter(void 0, void 0, void 0, function () {
     var text, r, _a, _b;

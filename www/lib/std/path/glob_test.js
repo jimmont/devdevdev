@@ -35,27 +35,27 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var mkdir = Deno.mkdir, test = Deno.test;
-import { assert, assertEquals } from "../testing/asserts.ts";
-import { testWalk, touch, walkArray } from "../fs/walk_test.ts";
-import { globToRegExp, isGlob, joinGlobs, normalizeGlob } from "./glob.ts";
-import { SEP, join } from "./mod.ts";
+import { assert, assertEquals } from "../testing/asserts.js";
+import { testWalk, touch, walkArray } from "../fs/walk_test.js";
+import { globToRegExp, isGlob, joinGlobs, normalizeGlob } from "./glob.js";
+import { SEP, join } from "./mod.js";
 test({
     name: "glob: glob to regex",
     fn: function () {
         assertEquals(globToRegExp("unicorn.*") instanceof RegExp, true);
-        assertEquals(globToRegExp("unicorn.*").test("poney.ts"), false);
+        assertEquals(globToRegExp("unicorn.*").test("poney.js"), false);
         assertEquals(globToRegExp("unicorn.*").test("unicorn.py"), true);
-        assertEquals(globToRegExp("*.ts").test("poney.ts"), true);
-        assertEquals(globToRegExp("*.ts").test("unicorn.js"), false);
-        assertEquals(globToRegExp(join("unicorn", "**", "cathedral.ts")).test(join("unicorn", "in", "the", "cathedral.ts")), true);
-        assertEquals(globToRegExp(join("unicorn", "**", "cathedral.ts")).test(join("unicorn", "in", "the", "kitchen.ts")), false);
+        assertEquals(globToRegExp("*.js").test("poney.js"), true);
+        assertEquals(globToRegExp("*.js").test("unicorn.js"), false);
+        assertEquals(globToRegExp(join("unicorn", "**", "cathedral.js")).test(join("unicorn", "in", "the", "cathedral.js")), true);
+        assertEquals(globToRegExp(join("unicorn", "**", "cathedral.js")).test(join("unicorn", "in", "the", "kitchen.js")), false);
         assertEquals(globToRegExp(join("unicorn", "**", "bathroom.*")).test(join("unicorn", "sleeping", "in", "bathroom.py")), true);
-        assertEquals(globToRegExp(join("unicorn", "!(sleeping)", "bathroom.ts"), {
+        assertEquals(globToRegExp(join("unicorn", "!(sleeping)", "bathroom.js"), {
             extended: true
-        }).test(join("unicorn", "flying", "bathroom.ts")), true);
-        assertEquals(globToRegExp(join("unicorn", "(!sleeping)", "bathroom.ts"), {
+        }).test(join("unicorn", "flying", "bathroom.js")), true);
+        assertEquals(globToRegExp(join("unicorn", "(!sleeping)", "bathroom.js"), {
             extended: true
-        }).test(join("unicorn", "sleeping", "bathroom.ts")), false);
+        }).test(join("unicorn", "sleeping", "bathroom.js")), false);
     }
 });
 testWalk(function (d) { return __awaiter(void 0, void 0, void 0, function () {
@@ -67,10 +67,10 @@ testWalk(function (d) { return __awaiter(void 0, void 0, void 0, function () {
                 return [4 /*yield*/, mkdir(d + "/b")];
             case 2:
                 _a.sent();
-                return [4 /*yield*/, touch(d + "/a/x.ts")];
+                return [4 /*yield*/, touch(d + "/a/x.js")];
             case 3:
                 _a.sent();
-                return [4 /*yield*/, touch(d + "/b/z.ts")];
+                return [4 /*yield*/, touch(d + "/b/z.js")];
             case 4:
                 _a.sent();
                 return [4 /*yield*/, touch(d + "/b/z.js")];
@@ -85,13 +85,13 @@ testWalk(function (d) { return __awaiter(void 0, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, walkArray(".", {
-                        match: [globToRegExp(join("*", "*.ts"))]
+                        match: [globToRegExp(join("*", "*.js"))]
                     })];
                 case 1:
                     arr = _a.sent();
                     assertEquals(arr.length, 2);
-                    assertEquals(arr[0], "a/x.ts");
-                    assertEquals(arr[1], "b/z.ts");
+                    assertEquals(arr[0], "a/x.js");
+                    assertEquals(arr[1], "b/z.js");
                     return [2 /*return*/];
             }
         });
@@ -106,7 +106,7 @@ testWalk(function (d) { return __awaiter(void 0, void 0, void 0, function () {
                 return [4 /*yield*/, mkdir(d + "/a/yo")];
             case 2:
                 _a.sent();
-                return [4 /*yield*/, touch(d + "/a/yo/x.ts")];
+                return [4 /*yield*/, touch(d + "/a/yo/x.js")];
             case 3:
                 _a.sent();
                 return [2 /*return*/];
@@ -119,7 +119,7 @@ testWalk(function (d) { return __awaiter(void 0, void 0, void 0, function () {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, walkArray(".", {
                         match: [
-                            globToRegExp(join("a", "**", "*.ts"), {
+                            globToRegExp(join("a", "**", "*.js"), {
                                 flags: "g",
                                 globstar: true
                             })
@@ -128,7 +128,7 @@ testWalk(function (d) { return __awaiter(void 0, void 0, void 0, function () {
                 case 1:
                     arr = _a.sent();
                     assertEquals(arr.length, 1);
-                    assertEquals(arr[0], "a/yo/x.ts");
+                    assertEquals(arr[0], "a/yo/x.js");
                     return [2 /*return*/];
             }
         });
@@ -149,13 +149,13 @@ testWalk(function (d) { return __awaiter(void 0, void 0, void 0, function () {
                 return [4 /*yield*/, mkdir(d + "/a/raptor")];
             case 4:
                 _a.sent();
-                return [4 /*yield*/, touch(d + "/a/raptor/x.ts")];
+                return [4 /*yield*/, touch(d + "/a/raptor/x.js")];
             case 5:
                 _a.sent();
-                return [4 /*yield*/, touch(d + "/a/deno/x.ts")];
+                return [4 /*yield*/, touch(d + "/a/deno/x.js")];
             case 6:
                 _a.sent();
-                return [4 /*yield*/, touch(d + "/a/unicorn/x.ts")];
+                return [4 /*yield*/, touch(d + "/a/unicorn/x.js")];
             case 7:
                 _a.sent();
                 return [2 /*return*/];
@@ -168,7 +168,7 @@ testWalk(function (d) { return __awaiter(void 0, void 0, void 0, function () {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, walkArray(".", {
                         match: [
-                            globToRegExp(join("a", "+(raptor|deno)", "*.ts"), {
+                            globToRegExp(join("a", "+(raptor|deno)", "*.js"), {
                                 flags: "g",
                                 extended: true
                             })
@@ -177,8 +177,8 @@ testWalk(function (d) { return __awaiter(void 0, void 0, void 0, function () {
                 case 1:
                     arr = _a.sent();
                     assertEquals(arr.length, 2);
-                    assertEquals(arr[0], "a/deno/x.ts");
-                    assertEquals(arr[1], "a/raptor/x.ts");
+                    assertEquals(arr[0], "a/deno/x.js");
+                    assertEquals(arr[1], "a/raptor/x.js");
                     return [2 /*return*/];
             }
         });
@@ -187,7 +187,7 @@ testWalk(function (d) { return __awaiter(void 0, void 0, void 0, function () {
 testWalk(function (d) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, touch(d + "/x.ts")];
+            case 0: return [4 /*yield*/, touch(d + "/x.js")];
             case 1:
                 _a.sent();
                 return [4 /*yield*/, touch(d + "/x.js")];
@@ -211,7 +211,7 @@ testWalk(function (d) { return __awaiter(void 0, void 0, void 0, function () {
                     arr = _a.sent();
                     assertEquals(arr.length, 2);
                     assertEquals(arr[0], "x.js");
-                    assertEquals(arr[1], "x.ts");
+                    assertEquals(arr[1], "x.js");
                     return [2 /*return*/];
             }
         });

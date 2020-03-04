@@ -46,11 +46,11 @@ var _a, _b, _c, _d;
 // TODO Add tests like these:
 // https://github.com/indexzero/http-server/blob/master/test/http-server-test.js
 var args = Deno.args, stat = Deno.stat, readDir = Deno.readDir, open = Deno.open, exit = Deno.exit;
-import { posix } from "../path/mod.ts";
-import { listenAndServe } from "./server.ts";
-import { parse } from "../flags/mod.ts";
-import { assert } from "../testing/asserts.ts";
-import { setContentLength } from "./io.ts";
+import { posix } from "../path/mod.js";
+import { listenAndServe } from "./server.js";
+import { parse } from "../flags/mod.js";
+import { assert } from "../testing/asserts.js";
+import { setContentLength } from "./io.js";
 var encoder = new TextEncoder();
 var serverArgs = parse(args);
 var CORSEnabled = serverArgs.cors ? true : false;

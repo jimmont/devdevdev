@@ -1,7 +1,7 @@
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
 var test = Deno.test;
-import { assertEquals, assert } from "../testing/asserts.ts";
-import { deepAssign } from "./deep_assign.ts";
+import { assertEquals, assert } from "../testing/asserts.js";
+import { deepAssign } from "./deep_assign.js";
 test(function deepAssignTest() {
     var date = new Date("1979-05-27T07:32:00Z");
     var reg = RegExp(/DENOWOWO/);

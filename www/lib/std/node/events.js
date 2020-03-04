@@ -27,8 +27,8 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
             r[k] = a[j];
     return r;
 };
-import { validateIntegerRange } from "./util.ts";
-import { assert } from "../testing/asserts.ts";
+import { validateIntegerRange } from "./util.js";
+import { assert } from "../testing/asserts.js";
 /**
  * See also https://nodejs.org/api/events.html
  */

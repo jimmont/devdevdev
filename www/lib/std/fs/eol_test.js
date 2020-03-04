@@ -1,6 +1,6 @@
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { assertEquals } from "../testing/asserts.ts";
-import { format, detect, EOL } from "./eol.ts";
+import { assertEquals } from "../testing/asserts.js";
+import { format, detect, EOL } from "./eol.js";
 var CRLFinput = "deno\r\nis not\r\nnode";
 var Mixedinput = "deno\nis not\r\nnode";
 var Mixedinput2 = "deno\r\nis not\nnode";

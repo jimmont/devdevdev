@@ -86,8 +86,8 @@ var __values = (this && this.__values) || function(o) {
     };
     throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 };
-import { charCode, copyBytes } from "./util.ts";
-import { assert } from "../testing/asserts.ts";
+import { charCode, copyBytes } from "./util.js";
+import { assert } from "../testing/asserts.js";
 var DEFAULT_BUF_SIZE = 4096;
 var MIN_BUF_SIZE = 16;
 var MAX_CONSECUTIVE_EMPTY_READS = 100;

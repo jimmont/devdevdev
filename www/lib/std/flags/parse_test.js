@@ -1,6 +1,6 @@
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { assertEquals } from "../testing/asserts.ts";
-import { parse } from "./mod.ts";
+import { assertEquals } from "../testing/asserts.js";
+import { parse } from "./mod.js";
 Deno.test(function parseArgs() {
     assertEquals(parse(["--no-moo"]), { moo: false, _: [] });
     assertEquals(parse(["-v", "a", "-v", "b", "-v", "c"]), {

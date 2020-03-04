@@ -6,7 +6,7 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
     return r;
 };
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { LogLevel, getLevelByName, getLevelName } from "./levels.ts";
+import { LogLevel, getLevelByName, getLevelName } from "./levels.js";
 var Logger = /** @class */ (function () {
     function Logger(levelName, handlers) {
         this.level = getLevelByName(levelName);

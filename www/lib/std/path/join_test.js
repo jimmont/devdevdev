@@ -1,6 +1,6 @@
 var test = Deno.test;
-import { assertEquals } from "../testing/asserts.ts";
-import * as path from "./mod.ts";
+import { assertEquals } from "../testing/asserts.js";
+import * as path from "./mod.js";
 var backslashRE = /\\/g;
 var joinTests = 
 // arguments                     result

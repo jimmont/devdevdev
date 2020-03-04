@@ -38,10 +38,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { BufReader } from "../io/bufio.ts";
-import { TextProtoReader, ProtocolError } from "./mod.ts";
-import { stringsReader } from "../io/util.ts";
-import { assert, assertEquals, assertThrows, assertNotEOF } from "../testing/asserts.ts";
+import { BufReader } from "../io/bufio.js";
+import { TextProtoReader, ProtocolError } from "./mod.js";
+import { stringsReader } from "../io/util.js";
+import { assert, assertEquals, assertThrows, assertNotEOF } from "../testing/asserts.js";
 var test = Deno.test;
 function reader(s) {
     return new TextProtoReader(new BufReader(stringsReader(s)));

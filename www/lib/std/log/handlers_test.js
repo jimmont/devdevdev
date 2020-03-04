@@ -13,9 +13,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
 var test = Deno.test;
-import { assertEquals } from "../testing/asserts.ts";
-import { LogLevel, getLevelName, getLevelByName } from "./levels.ts";
-import { BaseHandler } from "./handlers.ts";
+import { assertEquals } from "../testing/asserts.js";
+import { LogLevel, getLevelName, getLevelByName } from "./levels.js";
+import { BaseHandler } from "./handlers.js";
 var TestHandler = /** @class */ (function (_super) {
     __extends(TestHandler, _super);
     function TestHandler() {

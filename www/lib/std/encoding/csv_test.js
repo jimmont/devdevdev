@@ -36,10 +36,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 // Test ported from Golang
 // https://github.com/golang/go/blob/2cc15b1/src/encoding/csv/reader_test.go
-import { assertEquals, assert } from "../testing/asserts.ts";
-import { readMatrix, parse } from "./csv.ts";
-import { StringReader } from "../io/readers.ts";
-import { BufReader } from "../io/bufio.ts";
+import { assertEquals, assert } from "../testing/asserts.js";
+import { readMatrix, parse } from "./csv.js";
+import { StringReader } from "../io/readers.js";
+import { BufReader } from "../io/bufio.js";
 var ErrInvalidDelim = "Invalid Delimiter";
 var ErrFieldCount = "wrong number of fields";
 var ErrBareQuote = 'bare " in non-quoted-field';

@@ -1,7 +1,7 @@
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { assertEquals } from "../testing/asserts.ts";
-import { isWindows } from "../path/mod.ts";
-import { findTestModules } from "./runner.ts";
+import { assertEquals } from "../testing/asserts.js";
+import { isWindows } from "../path/mod.js";
+import { findTestModules } from "./runner.js";
 const { cwd, test } = Deno;
 function urlToFilePath(url) {
     // Since `new URL('file:///C:/a').pathname` is `/C:/a`, remove leading slash.
@@ -69,8 +69,8 @@ test(async function findTestModulesExcludeGlob() {
 });
 test(async function findTestModulesRemote() {
     const urls = [
-        "https://example.com/colors_test.ts",
-        "http://example.com/printf_test.ts"
+        "https://example.com/colors_test.js",
+        "http://example.com/printf_test.js"
     ];
     const matches = await findTestModulesArray(urls, []);
     assertEquals(matches, urls);

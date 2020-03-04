@@ -42,8 +42,8 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
     function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
 };
 var test = Deno.test;
-import { assert, assertEquals, fail, assertThrows } from "../testing/asserts.ts";
-import EventEmitter, { once, on } from "./events.ts";
+import { assert, assertEquals, fail, assertThrows } from "../testing/asserts.js";
+import EventEmitter, { once, on } from "./events.js";
 var shouldNeverBeEmitted = function () {
     fail("Should never be called");
 };

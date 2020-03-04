@@ -1,5 +1,5 @@
-import diff from "./diff.ts";
-import { assertEquals } from "../testing/asserts.ts";
+import diff from "./diff.js";
+import { assertEquals } from "../testing/asserts.js";
 const { test } = Deno;
 test({
     name: "empty",

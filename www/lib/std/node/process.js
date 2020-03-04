@@ -16,7 +16,7 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
             r[k] = a[j];
     return r;
 };
-import { notImplemented } from "./_utils.ts";
+import { notImplemented } from "./_utils.js";
 var version = "v" + Deno.version.deno;
 var versions = __assign({ node: Deno.version.deno }, Deno.version);
 var osToPlatform = function (os) {

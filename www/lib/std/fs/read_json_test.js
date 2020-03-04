@@ -35,9 +35,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { assertEquals, assertThrowsAsync, assertThrows } from "../testing/asserts.ts";
-import * as path from "../path/mod.ts";
-import { readJson, readJsonSync } from "./read_json.ts";
+import { assertEquals, assertThrowsAsync, assertThrows } from "../testing/asserts.js";
+import * as path from "../path/mod.js";
+import { readJson, readJsonSync } from "./read_json.js";
 var testdataDir = path.resolve("fs", "testdata");
 Deno.test(function readJsonFileNotExists() {
     return __awaiter(this, void 0, void 0, function () {

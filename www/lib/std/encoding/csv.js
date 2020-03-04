@@ -50,10 +50,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { BufReader } from "../io/bufio.ts";
-import { TextProtoReader } from "../textproto/mod.ts";
-import { StringReader } from "../io/readers.ts";
-import { assert } from "../testing/asserts.ts";
+import { BufReader } from "../io/bufio.js";
+import { TextProtoReader } from "../textproto/mod.js";
+import { StringReader } from "../io/readers.js";
+import { assert } from "../testing/asserts.js";
 var INVALID_RUNE = ["\r", "\n", '"'];
 var ParseError = /** @class */ (function (_super) {
     __extends(ParseError, _super);

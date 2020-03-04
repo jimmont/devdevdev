@@ -36,10 +36,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
 var Buffer = Deno.Buffer;
-import { assertEquals } from "../testing/asserts.ts";
-import { copyN, readInt, readLong, readShort, sliceLongToBytes } from "./ioutil.ts";
-import { BufReader } from "./bufio.ts";
-import { stringsReader } from "./util.ts";
+import { assertEquals } from "../testing/asserts.js";
+import { copyN, readInt, readLong, readShort, sliceLongToBytes } from "./ioutil.js";
+import { BufReader } from "./bufio.js";
+import { stringsReader } from "./util.js";
 var BinaryReader = /** @class */ (function () {
     function BinaryReader(bytes) {
         if (bytes === void 0) { bytes = new Uint8Array(0); }

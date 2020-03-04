@@ -63,8 +63,8 @@ var __values = (this && this.__values) || function(o) {
 // Documentation and interface for walk were adapted from Go
 // https://golang.org/pkg/path/filepath/#Walk
 // Copyright 2009 The Go Authors. All rights reserved. BSD license.
-import { unimplemented, assert } from "../testing/asserts.ts";
-import { join } from "../path/mod.ts";
+import { unimplemented, assert } from "../testing/asserts.js";
+import { join } from "../path/mod.js";
 var readDir = Deno.readDir, readDirSync = Deno.readDirSync, stat = Deno.stat, statSync = Deno.statSync;
 function include(filename, exts, match, skip) {
     if (exts && !exts.some(function (ext) { return filename.endsWith(ext); })) {

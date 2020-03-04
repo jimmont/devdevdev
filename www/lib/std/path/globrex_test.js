@@ -2,8 +2,8 @@
 // MIT License
 // Copyright (c) 2018 Terkel Gjervig Nielsen
 var test = Deno.test;
-import { assertEquals } from "../testing/asserts.ts";
-import { globrex } from "./globrex.ts";
+import { assertEquals } from "../testing/asserts.js";
+import { globrex } from "./globrex.js";
 var isWin = Deno.build.os === "win";
 var t = { equal: assertEquals, is: assertEquals };
 function match(glob, strUnix, strWin, opts) {

@@ -36,9 +36,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
 var remove = Deno.remove, test = Deno.test;
-import { assert, assertEquals } from "../testing/asserts.ts";
-import * as path from "../path/mod.ts";
-import { copyBytes, tempFile } from "./util.ts";
+import { assert, assertEquals } from "../testing/asserts.js";
+import * as path from "../path/mod.js";
+import { copyBytes, tempFile } from "./util.js";
 test("[io/tuil] copyBytes", function () {
     var dst = new Uint8Array(4);
     dst.fill(0);

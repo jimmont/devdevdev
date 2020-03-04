@@ -1,6 +1,6 @@
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { assertEquals, assertThrows } from "../testing/asserts.ts";
-import * as datetime from "./mod.ts";
+import { assertEquals, assertThrows } from "../testing/asserts.js";
+import * as datetime from "./mod.js";
 Deno.test(function parseDateTime() {
     assertEquals(datetime.parseDateTime("01-03-2019 16:30", "mm-dd-yyyy hh:mm"), new Date(2019, 0, 3, 16, 30));
     assertEquals(datetime.parseDateTime("03-01-2019 16:31", "dd-mm-yyyy hh:mm"), new Date(2019, 0, 3, 16, 31));

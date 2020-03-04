@@ -35,11 +35,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var copy = Deno.copy, test = Deno.test;
-import { assertEquals } from "../testing/asserts.ts";
-import { MultiReader, StringReader } from "./readers.ts";
-import { StringWriter } from "./writers.ts";
-import { copyN } from "./ioutil.ts";
-import { decode } from "../strings/mod.ts";
+import { assertEquals } from "../testing/asserts.js";
+import { MultiReader, StringReader } from "./readers.js";
+import { StringWriter } from "./writers.js";
+import { copyN } from "./ioutil.js";
+import { decode } from "../strings/mod.js";
 test(function ioStringReader() {
     return __awaiter(this, void 0, void 0, function () {
         var r, res0, res1;

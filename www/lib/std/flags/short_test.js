@@ -1,6 +1,6 @@
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { assertEquals } from "../testing/asserts.ts";
-import { parse } from "./mod.ts";
+import { assertEquals } from "../testing/asserts.js";
+import { parse } from "./mod.js";
 Deno.test(function numbericShortArgs() {
     assertEquals(parse(["-n123"]), { n: 123, _: [] });
     assertEquals(parse(["-123", "456"]), { 1: true, 2: true, 3: 456, _: [] });

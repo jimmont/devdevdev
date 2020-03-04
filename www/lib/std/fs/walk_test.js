@@ -54,8 +54,8 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
 };
 var cwd = Deno.cwd, chdir = Deno.chdir, makeTempDir = Deno.makeTempDir, mkdir = Deno.mkdir, open = Deno.open;
 var remove = Deno.remove;
-import { walk, walkSync } from "./walk.ts";
-import { assertEquals, assertThrowsAsync } from "../testing/asserts.ts";
+import { walk, walkSync } from "./walk.js";
+import { assertEquals, assertThrowsAsync } from "../testing/asserts.js";
 export function testWalk(setup, t) {
     return __awaiter(this, void 0, void 0, function () {
         function fn() {
@@ -391,7 +391,7 @@ testWalk(function (d) { return __awaiter(void 0, void 0, void 0, function () {
 testWalk(function (d) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, touch(d + "/x.ts")];
+            case 0: return [4 /*yield*/, touch(d + "/x.js")];
             case 1:
                 _a.sent();
                 return [4 /*yield*/, touch(d + "/y.rs")];
@@ -407,10 +407,10 @@ testWalk(function (d) { return __awaiter(void 0, void 0, void 0, function () {
             switch (_a.label) {
                 case 0:
                     assertReady(3);
-                    return [4 /*yield*/, walkArray(".", { exts: [".ts"] })];
+                    return [4 /*yield*/, walkArray(".", { exts: [".js"] })];
                 case 1:
                     arr = _a.sent();
-                    assertEquals(arr, ["x.ts"]);
+                    assertEquals(arr, ["x.js"]);
                     return [2 /*return*/];
             }
         });
@@ -419,7 +419,7 @@ testWalk(function (d) { return __awaiter(void 0, void 0, void 0, function () {
 testWalk(function (d) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, touch(d + "/x.ts")];
+            case 0: return [4 /*yield*/, touch(d + "/x.js")];
             case 1:
                 _a.sent();
                 return [4 /*yield*/, touch(d + "/y.rs")];
@@ -438,10 +438,10 @@ testWalk(function (d) { return __awaiter(void 0, void 0, void 0, function () {
             switch (_a.label) {
                 case 0:
                     assertReady(4);
-                    return [4 /*yield*/, walkArray(".", { exts: [".rs", ".ts"] })];
+                    return [4 /*yield*/, walkArray(".", { exts: [".rs", ".js"] })];
                 case 1:
                     arr = _a.sent();
-                    assertEquals(arr, ["x.ts", "y.rs"]);
+                    assertEquals(arr, ["x.js", "y.rs"]);
                     return [2 /*return*/];
             }
         });

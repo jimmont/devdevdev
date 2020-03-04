@@ -41,11 +41,11 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
     function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
     function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
 };
-import { connectWebSocket, isWebSocketCloseEvent, isWebSocketPingEvent, isWebSocketPongEvent } from "../ws/mod.ts";
-import { encode } from "../strings/mod.ts";
-import { BufReader } from "../io/bufio.ts";
-import { TextProtoReader } from "../textproto/mod.ts";
-import { blue, green, red, yellow } from "../fmt/colors.ts";
+import { connectWebSocket, isWebSocketCloseEvent, isWebSocketPingEvent, isWebSocketPongEvent } from "../ws/mod.js";
+import { encode } from "../strings/mod.js";
+import { BufReader } from "../io/bufio.js";
+import { TextProtoReader } from "../textproto/mod.js";
+import { blue, green, red, yellow } from "../fmt/colors.js";
 var endpoint = Deno.args[0] || "ws://127.0.0.1:8080";
 /** simple websocket cli */
 var sock = await connectWebSocket(endpoint);

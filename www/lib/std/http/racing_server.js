@@ -43,8 +43,8 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
 };
 var e_1, _a;
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { serve } from "./server.ts";
-import { delay } from "../util/async.ts";
+import { serve } from "./server.js";
+import { delay } from "../util/async.js";
 var addr = Deno.args[1] || "127.0.0.1:4501";
 var server = serve(addr);
 function body(i) {

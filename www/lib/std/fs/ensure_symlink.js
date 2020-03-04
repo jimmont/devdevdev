@@ -35,10 +35,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import * as path from "../path/mod.ts";
-import { ensureDir, ensureDirSync } from "./ensure_dir.ts";
-import { exists, existsSync } from "./exists.ts";
-import { getFileInfoType } from "./utils.ts";
+import * as path from "../path/mod.js";
+import { ensureDir, ensureDirSync } from "./ensure_dir.js";
+import { exists, existsSync } from "./exists.js";
+import { getFileInfoType } from "./utils.js";
 /**
  * Ensures that the link exists.
  * If the directory structure does not exist, it is created.

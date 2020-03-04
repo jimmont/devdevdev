@@ -1,5 +1,5 @@
 // https://deno.land/std/testing/bench.ts
-import { bench, runIfMain } from "./bench.ts";
+import { bench, runIfMain } from "./bench.js";
 // Basic
 bench(function forIncrementX1e9(b) {
     b.start();

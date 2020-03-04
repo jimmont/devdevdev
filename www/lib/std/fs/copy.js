@@ -35,10 +35,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import * as path from "../path/mod.ts";
-import { ensureDir, ensureDirSync } from "./ensure_dir.ts";
-import { isSubdir, getFileInfoType } from "./utils.ts";
-import { assert } from "../testing/asserts.ts";
+import * as path from "../path/mod.js";
+import { ensureDir, ensureDirSync } from "./ensure_dir.js";
+import { isSubdir, getFileInfoType } from "./utils.js";
+import { assert } from "../testing/asserts.js";
 function ensureValidCopy(src, dest, options, isCopyFolder) {
     if (isCopyFolder === void 0) { isCopyFolder = false; }
     return __awaiter(this, void 0, void 0, function () {

@@ -3,8 +3,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // TODO(kt3k): fix any types in this file
 var test = Deno.test;
-import { assertEquals } from "../testing/asserts.ts";
-import * as path from "./mod.ts";
+import { assertEquals } from "../testing/asserts.js";
+import * as path from "./mod.js";
 var winPaths = [
     // [path, root]
     ["C:\\path\\dir\\index.html", "C:\\"],

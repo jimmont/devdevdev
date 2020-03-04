@@ -36,9 +36,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
 // TODO(axetroy): Add test for Windows once symlink is implemented for Windows.
-import { assertEquals, assertThrows, assertThrowsAsync } from "../testing/asserts.ts";
-import * as path from "../path/mod.ts";
-import { ensureLink, ensureLinkSync } from "./ensure_link.ts";
+import { assertEquals, assertThrows, assertThrowsAsync } from "../testing/asserts.js";
+import * as path from "../path/mod.js";
+import { ensureLink, ensureLinkSync } from "./ensure_link.js";
 var testdataDir = path.resolve("fs", "testdata");
 Deno.test(function ensureLinkIfItNotExist() {
     return __awaiter(this, void 0, void 0, function () {

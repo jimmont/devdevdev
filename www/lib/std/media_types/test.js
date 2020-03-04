@@ -1,7 +1,7 @@
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
 var test = Deno.test;
-import { assertEquals } from "../testing/asserts.ts";
-import { lookup, contentType, extension, charset, extensions, types } from "./mod.ts";
+import { assertEquals } from "../testing/asserts.js";
+import { lookup, contentType, extension, charset, extensions, types } from "./mod.js";
 test(function testLookup() {
     assertEquals(lookup("json"), "application/json");
     assertEquals(lookup(".md"), "text/markdown");

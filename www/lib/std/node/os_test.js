@@ -1,6 +1,6 @@
 var test = Deno.test;
-import { assert, assertThrows, assertEquals } from "../testing/asserts.ts";
-import * as os from "./os.ts";
+import { assert, assertThrows, assertEquals } from "../testing/asserts.js";
+import * as os from "./os.js";
 test({
     name: "build architecture is a string",
     fn: function () {

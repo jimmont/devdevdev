@@ -44,9 +44,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
  * **to run this test**
  * deno run --allow-read archive/tar_test.ts
  */
-import { assertEquals } from "../testing/asserts.ts";
-import { resolve } from "../path/mod.ts";
-import { Tar, Untar } from "./tar.ts";
+import { assertEquals } from "../testing/asserts.js";
+import { resolve } from "../path/mod.js";
+import { Tar, Untar } from "./tar.js";
 var filePath = resolve("archive", "testdata", "example.txt");
 Deno.test(function createTarArchive() {
     return __awaiter(this, void 0, void 0, function () {
@@ -63,7 +63,7 @@ Deno.test(function createTarArchive() {
                 case 1:
                     _a.sent();
                     // put a file
-                    return [4 /*yield*/, tar.append("dir/tar.ts", { filePath: filePath })];
+                    return [4 /*yield*/, tar.append("dir/tar.js", { filePath: filePath })];
                 case 2:
                     // put a file
                     _a.sent();

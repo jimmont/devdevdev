@@ -1,6 +1,6 @@
 var test = Deno.test;
-import { assertEquals } from "../testing/asserts.ts";
-import { pad } from "./pad.ts";
+import { assertEquals } from "../testing/asserts.js";
+import { pad } from "./pad.js";
 test(function padTest() {
     var expected1 = "**deno";
     var expected2 = "deno";

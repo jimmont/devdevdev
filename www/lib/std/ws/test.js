@@ -35,13 +35,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { BufReader, BufWriter } from "../io/bufio.ts";
-import { assert, assertEquals, assertThrowsAsync } from "../testing/asserts.ts";
+import { BufReader, BufWriter } from "../io/bufio.js";
+import { assert, assertEquals, assertThrowsAsync } from "../testing/asserts.js";
 var test = Deno.test;
-import { TextProtoReader } from "../textproto/mod.ts";
-import * as bytes from "../bytes/mod.ts";
-import { acceptable, connectWebSocket, createSecAccept, createSecKey, handshake, OpCode, readFrame, unmask, writeFrame, createWebSocket, SocketClosedError } from "./mod.ts";
-import { encode, decode } from "../strings/mod.ts";
+import { TextProtoReader } from "../textproto/mod.js";
+import * as bytes from "../bytes/mod.js";
+import { acceptable, connectWebSocket, createSecAccept, createSecKey, handshake, OpCode, readFrame, unmask, writeFrame, createWebSocket, SocketClosedError } from "./mod.js";
+import { encode, decode } from "../strings/mod.js";
 var Buffer = Deno.Buffer;
 test("[ws] read unmasked text frame", function () { return __awaiter(void 0, void 0, void 0, function () {
     var buf, frame;

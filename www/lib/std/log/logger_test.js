@@ -24,10 +24,10 @@ var __assign = (this && this.__assign) || function () {
 };
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
 var test = Deno.test;
-import { assertEquals } from "../testing/asserts.ts";
-import { Logger } from "./logger.ts";
-import { LogLevel } from "./levels.ts";
-import { BaseHandler } from "./handlers.ts";
+import { assertEquals } from "../testing/asserts.js";
+import { Logger } from "./logger.js";
+import { LogLevel } from "./levels.js";
+import { BaseHandler } from "./handlers.js";
 var TestHandler = /** @class */ (function (_super) {
     __extends(TestHandler, _super);
     function TestHandler() {

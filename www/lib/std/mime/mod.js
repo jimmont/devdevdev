@@ -1,2 +1,2 @@
-export * from "./multipart.ts";
+export * from "./multipart.js";
 //# sourceMappingURL=mod.js.map

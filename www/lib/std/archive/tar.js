@@ -69,9 +69,9 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-import { MultiReader } from "../io/readers.ts";
-import { BufReader } from "../io/bufio.ts";
-import { assert } from "../testing/asserts.ts";
+import { MultiReader } from "../io/readers.js";
+import { BufReader } from "../io/bufio.js";
+import { assert } from "../testing/asserts.js";
 var recordSize = 512;
 var ustar = "ustar\u000000";
 /**

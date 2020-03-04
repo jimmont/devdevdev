@@ -1,8 +1,8 @@
 // Copyright the Browserify authors. MIT License.
 // Ported from https://github.com/browserify/path-browserify/
 var cwd = Deno.cwd, test = Deno.test;
-import { assertEquals } from "../testing/asserts.ts";
-import * as path from "./mod.ts";
+import { assertEquals } from "../testing/asserts.js";
+import * as path from "./mod.js";
 var pwd = cwd();
 test(function joinZeroLength() {
     // join will internally ignore all the zero-length strings and it will return

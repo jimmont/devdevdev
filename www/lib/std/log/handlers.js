@@ -49,8 +49,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
 var open = Deno.open;
-import { getLevelByName, LogLevel } from "./levels.ts";
-import { red, yellow, blue, bold } from "../fmt/colors.ts";
+import { getLevelByName, LogLevel } from "./levels.js";
+import { red, yellow, blue, bold } from "../fmt/colors.js";
 var DEFAULT_FORMATTER = "{levelName} {msg}";
 var BaseHandler = /** @class */ (function () {
     function BaseHandler(levelName, options) {

@@ -43,8 +43,8 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
 };
 var e_1, _a;
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { serve } from "../http/server.ts";
-import { acceptWebSocket, isWebSocketCloseEvent, isWebSocketPingEvent } from "./mod.ts";
+import { serve } from "../http/server.js";
+import { acceptWebSocket, isWebSocketCloseEvent, isWebSocketPingEvent } from "./mod.js";
 /** websocket echo server */
 var port = Deno.args[0] || "8080";
 console.log("websocket server is running on :" + port);

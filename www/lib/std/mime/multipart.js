@@ -37,16 +37,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var Buffer = Deno.Buffer, copy = Deno.copy, remove = Deno.remove;
 var min = Math.min, max = Math.max;
-import { equal, findIndex, findLastIndex, hasPrefix } from "../bytes/mod.ts";
-import { copyN } from "../io/ioutil.ts";
-import { MultiReader } from "../io/readers.ts";
-import { extname } from "../path/mod.ts";
-import { tempFile } from "../io/util.ts";
-import { BufReader, BufWriter, UnexpectedEOFError } from "../io/bufio.ts";
-import { encoder } from "../strings/mod.ts";
-import { assertStrictEq, assert } from "../testing/asserts.ts";
-import { TextProtoReader } from "../textproto/mod.ts";
-import { hasOwnProperty } from "../util/has_own_property.ts";
+import { equal, findIndex, findLastIndex, hasPrefix } from "../bytes/mod.js";
+import { copyN } from "../io/ioutil.js";
+import { MultiReader } from "../io/readers.js";
+import { extname } from "../path/mod.js";
+import { tempFile } from "../io/util.js";
+import { BufReader, BufWriter, UnexpectedEOFError } from "../io/bufio.js";
+import { encoder } from "../strings/mod.js";
+import { assertStrictEq, assert } from "../testing/asserts.js";
+import { TextProtoReader } from "../textproto/mod.js";
+import { hasOwnProperty } from "../util/has_own_property.js";
 /** Type guard for FormFile */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function isFormFile(x) {

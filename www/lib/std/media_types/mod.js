@@ -26,7 +26,7 @@
  * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-import { db, extname } from "./deps.ts";
+import { db, extname } from "./deps.js";
 var EXTRACT_TYPE_REGEXP = /^\s*([^;\s]*)(?:;|\s|$)/;
 var TEXT_TYPE_REGEXP = /^text\//i;
 /** A map of extensions for a given media type */

@@ -1,9 +1,9 @@
 // Copyright the Browserify authors. MIT License.
 // Ported from https://github.com/browserify/path-browserify/
 var cwd = Deno.cwd, env = Deno.env;
-import { CHAR_DOT, CHAR_BACKWARD_SLASH, CHAR_COLON, CHAR_QUESTION_MARK } from "./constants.ts";
-import { assertPath, isPathSeparator, isWindowsDeviceRoot, normalizeString, _format } from "./utils.ts";
-import { assert } from "../testing/asserts.ts";
+import { CHAR_DOT, CHAR_BACKWARD_SLASH, CHAR_COLON, CHAR_QUESTION_MARK } from "./constants.js";
+import { assertPath, isPathSeparator, isWindowsDeviceRoot, normalizeString, _format } from "./utils.js";
+import { assert } from "../testing/asserts.js";
 export var sep = "\\";
 export var delimiter = ";";
 export function resolve() {

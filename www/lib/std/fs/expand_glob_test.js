@@ -60,10 +60,10 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
     return r;
 };
 var cwd = Deno.cwd, execPath = Deno.execPath, run = Deno.run;
-import { decode } from "../strings/mod.ts";
-import { assert, assertEquals, assertStrContains } from "../testing/asserts.ts";
-import { isWindows, join, joinGlobs, normalize, relative } from "../path/mod.ts";
-import { expandGlob, expandGlobSync } from "./expand_glob.ts";
+import { decode } from "../strings/mod.js";
+import { assert, assertEquals, assertStrContains } from "../testing/asserts.js";
+import { isWindows, join, joinGlobs, normalize, relative } from "../path/mod.js";
+import { expandGlob, expandGlobSync } from "./expand_glob.js";
 function expandGlobArray(globString, options) {
     var e_1, _a;
     return __awaiter(this, void 0, void 0, function () {

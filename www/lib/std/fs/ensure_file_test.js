@@ -35,9 +35,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { assertThrows, assertThrowsAsync } from "../testing/asserts.ts";
-import * as path from "../path/mod.ts";
-import { ensureFile, ensureFileSync } from "./ensure_file.ts";
+import { assertThrows, assertThrowsAsync } from "../testing/asserts.js";
+import * as path from "../path/mod.js";
+import { ensureFile, ensureFileSync } from "./ensure_file.js";
 var testdataDir = path.resolve("fs", "testdata");
 Deno.test(function ensureFileIfItNotExist() {
     return __awaiter(this, void 0, void 0, function () {

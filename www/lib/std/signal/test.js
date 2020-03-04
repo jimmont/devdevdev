@@ -42,9 +42,9 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
     function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
 };
 var test = Deno.test;
-import { assertEquals, assertThrows } from "../testing/asserts.ts";
-import { delay } from "../util/async.ts";
-import { signal } from "./mod.ts";
+import { assertEquals, assertThrows } from "../testing/asserts.js";
+import { delay } from "../util/async.js";
+import { signal } from "./mod.js";
 if (Deno.build.os !== "win") {
     test("signal() throws when called with empty signals", function () {
         assertThrows(function () {

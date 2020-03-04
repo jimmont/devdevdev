@@ -35,8 +35,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { UnexpectedEOFError } from "./bufio.ts";
-import { assert } from "../testing/asserts.ts";
+import { UnexpectedEOFError } from "./bufio.js";
+import { assert } from "../testing/asserts.js";
 /** copy N size at the most.
  *  If read size is lesser than N, then returns nread
  * */

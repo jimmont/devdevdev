@@ -18,15 +18,15 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
-import "./global.ts";
-import * as nodeFS from "./fs.ts";
-import * as nodeUtil from "./util.ts";
-import * as nodePath from "./path.ts";
-import * as nodeTimers from "./timers.ts";
-import * as nodeOs from "./os.ts";
-import * as nodeEvents from "./events.ts";
-import * as path from "../path/mod.ts";
-import { assert } from "../testing/asserts.ts";
+import "./global.js";
+import * as nodeFS from "./fs.js";
+import * as nodeUtil from "./util.js";
+import * as nodePath from "./path.js";
+import * as nodeTimers from "./timers.js";
+import * as nodeOs from "./os.js";
+import * as nodeEvents from "./events.js";
+import * as path from "../path/mod.js";
+import { assert } from "../testing/asserts.js";
 var CHAR_FORWARD_SLASH = "/".charCodeAt(0);
 var CHAR_BACKWARD_SLASH = "\\".charCodeAt(0);
 var CHAR_COLON = ":".charCodeAt(0);

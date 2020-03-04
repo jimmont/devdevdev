@@ -1,6 +1,6 @@
 var test = Deno.test;
-import { assert } from "../testing/asserts.ts";
-import * as util from "./util.ts";
+import { assert } from "../testing/asserts.js";
+import * as util from "./util.js";
 test({
     name: "[util] isBoolean",
     fn: function () {

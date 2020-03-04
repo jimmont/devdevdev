@@ -53,9 +53,9 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
     return r;
 };
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { Logger } from "./logger.ts";
-import { BaseHandler, ConsoleHandler, WriterHandler, FileHandler } from "./handlers.ts";
-import { assert } from "../testing/asserts.ts";
+import { Logger } from "./logger.js";
+import { BaseHandler, ConsoleHandler, WriterHandler, FileHandler } from "./handlers.js";
+import { assert } from "../testing/asserts.js";
 var LoggerConfig = /** @class */ (function () {
     function LoggerConfig() {
     }

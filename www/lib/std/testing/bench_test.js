@@ -1,6 +1,6 @@
 const { test } = Deno;
-import { bench, runBenchmarks } from "./bench.ts";
-import "./bench_example.ts";
+import { bench, runBenchmarks } from "./bench.js";
+import "./bench_example.js";
 test(async function benching() {
     bench(function forIncrementX1e9(b) {
         b.start();

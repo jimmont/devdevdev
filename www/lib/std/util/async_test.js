@@ -55,8 +55,8 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
 };
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
 var test = Deno.test;
-import { assert, assertEquals, assertStrictEq } from "../testing/asserts.ts";
-import { collectUint8Arrays, deferred, MuxAsyncIterator } from "./async.ts";
+import { assert, assertEquals, assertStrictEq } from "../testing/asserts.js";
+import { collectUint8Arrays, deferred, MuxAsyncIterator } from "./async.js";
 test(function asyncDeferred() {
     return __awaiter(this, void 0, void 0, function () {
         var d;

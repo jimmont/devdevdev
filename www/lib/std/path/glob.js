@@ -1,7 +1,7 @@
-import { SEP, SEP_PATTERN } from "./constants.ts";
-import { globrex } from "./globrex.ts";
-import { join, normalize } from "./mod.ts";
-import { assert } from "../testing/asserts.ts";
+import { SEP, SEP_PATTERN } from "./constants.js";
+import { globrex } from "./globrex.js";
+import { join, normalize } from "./mod.js";
+import { assert } from "../testing/asserts.js";
 /**
  * Generate a regex based on glob pattern and options
  * This was meant to be using the the `fs.walk` function
@@ -10,7 +10,7 @@ import { assert } from "../testing/asserts.ts";
  *
  *     Looking for all the `ts` files:
  *     walkSync(".", {
- *       match: [globToRegExp("*.ts")]
+ *       match: [globToRegExp("*.js")]
  *     })
  *
  *     Looking for all the `.json` files in any subfolder:

@@ -1,5 +1,5 @@
-import { sprintf } from "./sprintf.ts";
-import { assertEquals } from "../testing/asserts.ts";
+import { sprintf } from "./sprintf.js";
+import { assertEquals } from "../testing/asserts.js";
 var S = sprintf;
 Deno.test(function noVerb() {
     assertEquals(sprintf("bla"), "bla");

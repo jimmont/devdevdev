@@ -1,5 +1,5 @@
-export * from "./bufio.ts";
-export * from "./ioutil.ts";
-export * from "./readers.ts";
-export * from "./writers.ts";
+export * from "./bufio.js";
+export * from "./ioutil.js";
+export * from "./readers.js";
+export * from "./writers.js";
 //# sourceMappingURL=mod.js.map

@@ -35,9 +35,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import * as path from "../path/mod.ts";
-import { ensureDir, ensureDirSync } from "./ensure_dir.ts";
-import { getFileInfoType } from "./utils.ts";
+import * as path from "../path/mod.js";
+import { ensureDir, ensureDirSync } from "./ensure_dir.js";
+import { getFileInfoType } from "./utils.js";
 var lstat = Deno.lstat, lstatSync = Deno.lstatSync, writeFile = Deno.writeFile, writeFileSync = Deno.writeFileSync;
 /**
  * Ensures that the file exists.

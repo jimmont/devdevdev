@@ -1,5 +1,5 @@
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { copyBytes } from "../io/util.ts";
+import { copyBytes } from "../io/util.js";
 /** Find first index of binary pattern from a. If not found, then return -1 **/
 export function findIndex(a, pat) {
     var s = pat[0];

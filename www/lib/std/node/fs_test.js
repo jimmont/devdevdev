@@ -35,9 +35,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var test = Deno.test;
-import { readFile, readFileSync, readlink, readlinkSync } from "./fs.ts";
-import * as path from "../path/mod.ts";
-import { assertEquals, assert } from "../testing/asserts.ts";
+import { readFile, readFileSync, readlink, readlinkSync } from "./fs.js";
+import * as path from "../path/mod.js";
+import { assertEquals, assert } from "../testing/asserts.js";
 var testData = path.resolve(path.join("node", "testdata", "hello.txt"));
 var testDir = Deno.makeTempDirSync();
 var oldname = testDir + "/oldname";

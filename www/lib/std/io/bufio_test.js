@@ -46,10 +46,10 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
     function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
 };
 var Buffer = Deno.Buffer;
-import { assert, assertEquals, fail, assertNotEOF } from "../testing/asserts.ts";
-import { BufReader, BufWriter, BufferFullError, UnexpectedEOFError, readStringDelim, readLines } from "./bufio.ts";
-import * as iotest from "./iotest.ts";
-import { charCode, copyBytes, stringsReader } from "./util.ts";
+import { assert, assertEquals, fail, assertNotEOF } from "../testing/asserts.js";
+import { BufReader, BufWriter, BufferFullError, UnexpectedEOFError, readStringDelim, readLines } from "./bufio.js";
+import * as iotest from "./iotest.js";
+import { charCode, copyBytes, stringsReader } from "./util.js";
 var encoder = new TextEncoder();
 function readBytes(buf) {
     return __awaiter(this, void 0, void 0, function () {

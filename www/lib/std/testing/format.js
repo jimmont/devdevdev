@@ -1,4 +1,4 @@
-import { assert } from "./asserts.ts";
+import { assert } from "./asserts.js";
 const toString = Object.prototype.toString;
 const toISOString = Date.prototype.toISOString;
 const errorToString = Error.prototype.toString;

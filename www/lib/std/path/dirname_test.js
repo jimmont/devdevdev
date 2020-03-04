@@ -1,8 +1,8 @@
 // Copyright the Browserify authors. MIT License.
 // Ported from https://github.com/browserify/path-browserify/
 var test = Deno.test;
-import { assertEquals } from "../testing/asserts.ts";
-import * as path from "./mod.ts";
+import { assertEquals } from "../testing/asserts.js";
+import * as path from "./mod.js";
 test(function dirname() {
     assertEquals(path.posix.dirname("/a/b/"), "/a");
     assertEquals(path.posix.dirname("/a/b"), "/a");

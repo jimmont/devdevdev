@@ -1,6 +1,6 @@
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { assertEquals } from "../testing/asserts.ts";
-import { parse } from "./mod.ts";
+import { assertEquals } from "../testing/asserts.js";
+import { parse } from "./mod.js";
 Deno.test(function short() {
     var argv = parse(["-b=123"]);
     assertEquals(argv, { b: 123, _: [] });

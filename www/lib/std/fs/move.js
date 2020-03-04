@@ -35,8 +35,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { exists, existsSync } from "./exists.ts";
-import { isSubdir } from "./utils.ts";
+import { exists, existsSync } from "./exists.js";
+import { isSubdir } from "./utils.js";
 /** Moves a file or directory */
 export function move(src, dest, options) {
     return __awaiter(this, void 0, void 0, function () {

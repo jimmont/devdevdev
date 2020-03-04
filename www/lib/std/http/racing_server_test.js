@@ -34,9 +34,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { assert, assertEquals } from "../testing/asserts.ts";
-import { BufReader, BufWriter } from "../io/bufio.ts";
-import { TextProtoReader } from "../textproto/mod.ts";
+import { assert, assertEquals } from "../testing/asserts.js";
+import { BufReader, BufWriter } from "../io/bufio.js";
+import { TextProtoReader } from "../textproto/mod.js";
 var connect = Deno.connect, run = Deno.run, test = Deno.test;
 var server;
 function startServer() {
@@ -46,7 +46,7 @@ function startServer() {
             switch (_a.label) {
                 case 0:
                     server = run({
-                        args: [Deno.execPath(), "run", "-A", "http/racing_server.ts"],
+                        args: [Deno.execPath(), "run", "-A", "http/racing_server.js"],
                         stdout: "piped"
                     });
                     // Once racing server is ready it will write to its stdout.

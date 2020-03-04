@@ -1,4 +1,4 @@
-import { notImplemented, intoCallbackAPIWithIntercept } from "./_utils.ts";
+import { notImplemented, intoCallbackAPIWithIntercept } from "./_utils.js";
 var denoReadFile = Deno.readFile, denoReadFileSync = Deno.readFileSync, denoReadlink = Deno.readlink, denoReadlinkSync = Deno.readlinkSync;
 function getEncoding(optOrCallback) {
     if (!optOrCallback || typeof optOrCallback === "function") {

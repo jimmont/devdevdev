@@ -35,7 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { join } from "../path/mod.ts";
+import { join } from "../path/mod.js";
 var readDir = Deno.readDir, readDirSync = Deno.readDirSync, mkdir = Deno.mkdir, mkdirSync = Deno.mkdirSync, remove = Deno.remove, removeSync = Deno.removeSync;
 /**
  * Ensures that a directory is empty.

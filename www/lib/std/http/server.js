@@ -81,11 +81,11 @@ var __values = (this && this.__values) || function(o) {
     throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 };
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { BufReader, BufWriter } from "../io/bufio.ts";
-import { assert } from "../testing/asserts.ts";
-import { deferred, MuxAsyncIterator } from "../util/async.ts";
-import { bodyReader, chunkedBodyReader, emptyReader, writeResponse, readRequest } from "./io.ts";
-import { encode } from "../strings/mod.ts";
+import { BufReader, BufWriter } from "../io/bufio.js";
+import { assert } from "../testing/asserts.js";
+import { deferred, MuxAsyncIterator } from "../util/async.js";
+import { bodyReader, chunkedBodyReader, emptyReader, writeResponse, readRequest } from "./io.js";
+import { encode } from "../strings/mod.js";
 var listen = Deno.listen, listenTLS = Deno.listenTLS;
 var ServerRequest = /** @class */ (function () {
     function ServerRequest() {
@@ -357,7 +357,7 @@ export { Server };
 /**
  * Start a HTTP server
  *
- *     import { serve } from "https://deno.land/std/http/server.ts";
+ *     import { serve } from "https://deno.land/std/http/server.js";
  *     const body = "Hello World\n";
  *     const s = serve({ port: 8000 });
  *     for await (const req of s) {

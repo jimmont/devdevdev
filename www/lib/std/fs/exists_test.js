@@ -35,9 +35,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { assertEquals, assertStrContains } from "../testing/asserts.ts";
-import * as path from "../path/mod.ts";
-import { exists, existsSync } from "./exists.ts";
+import { assertEquals, assertStrContains } from "../testing/asserts.js";
+import * as path from "../path/mod.js";
+import { exists, existsSync } from "./exists.js";
 var testdataDir = path.resolve("fs", "testdata");
 Deno.test("[fs] existsFile", function () {
     return __awaiter(this, void 0, void 0, function () {
@@ -46,12 +46,12 @@ Deno.test("[fs] existsFile", function () {
             switch (_c.label) {
                 case 0:
                     _a = assertEquals;
-                    return [4 /*yield*/, exists(path.join(testdataDir, "not_exist_file.ts"))];
+                    return [4 /*yield*/, exists(path.join(testdataDir, "not_exist_file.js"))];
                 case 1:
                     _a.apply(void 0, [_c.sent(),
                         false]);
                     _b = assertEquals;
-                    return [4 /*yield*/, existsSync(path.join(testdataDir, "0.ts"))];
+                    return [4 /*yield*/, existsSync(path.join(testdataDir, "0.js"))];
                 case 2:
                     _b.apply(void 0, [_c.sent(), true]);
                     return [2 /*return*/];
@@ -60,8 +60,8 @@ Deno.test("[fs] existsFile", function () {
     });
 });
 Deno.test("[fs] existsFileSync", function () {
-    assertEquals(existsSync(path.join(testdataDir, "not_exist_file.ts")), false);
-    assertEquals(existsSync(path.join(testdataDir, "0.ts")), true);
+    assertEquals(existsSync(path.join(testdataDir, "not_exist_file.js")), false);
+    assertEquals(existsSync(path.join(testdataDir, "0.js")), true);
 });
 Deno.test("[fs] existsDirectory", function () {
     return __awaiter(this, void 0, void 0, function () {
@@ -87,7 +87,7 @@ Deno.test("[fs] existsDirectorySync", function () {
 Deno.test("[fs] existsLinkSync", function () {
     // TODO(axetroy): generate link file use Deno api instead of set a link file
     // in repository
-    assertEquals(existsSync(path.join(testdataDir, "0-link.ts")), true);
+    assertEquals(existsSync(path.join(testdataDir, "0-link.js")), true);
 });
 Deno.test("[fs] existsLink", function () {
     return __awaiter(this, void 0, void 0, function () {
@@ -98,7 +98,7 @@ Deno.test("[fs] existsLink", function () {
                     // TODO(axetroy): generate link file use Deno api instead of set a link file
                     // in repository
                     _a = assertEquals;
-                    return [4 /*yield*/, exists(path.join(testdataDir, "0-link.ts"))];
+                    return [4 /*yield*/, exists(path.join(testdataDir, "0-link.js"))];
                 case 1:
                     // TODO(axetroy): generate link file use Deno api instead of set a link file
                     // in repository
@@ -114,52 +114,52 @@ var scenes = [
         read: false,
         async: true,
         output: "run again with the --allow-read flag",
-        file: "0.ts"
+        file: "0.js"
     },
     {
         read: false,
         async: false,
         output: "run again with the --allow-read flag",
-        file: "0.ts"
+        file: "0.js"
     },
     // 2
     {
         read: true,
         async: true,
         output: "exist",
-        file: "0.ts"
+        file: "0.js"
     },
     {
         read: true,
         async: false,
         output: "exist",
-        file: "0.ts"
+        file: "0.js"
     },
     // 3
     {
         read: false,
         async: true,
         output: "run again with the --allow-read flag",
-        file: "no_exist_file_for_test.ts"
+        file: "no_exist_file_for_test.js"
     },
     {
         read: false,
         async: false,
         output: "run again with the --allow-read flag",
-        file: "no_exist_file_for_test.ts"
+        file: "no_exist_file_for_test.js"
     },
     // 4
     {
         read: true,
         async: true,
         output: "not exist",
-        file: "no_exist_file_for_test.ts"
+        file: "no_exist_file_for_test.js"
     },
     {
         read: true,
         async: false,
         output: "not exist",
-        file: "no_exist_file_for_test.ts"
+        file: "no_exist_file_for_test.js"
     }
 ];
 var _loop_1 = function (s) {
@@ -175,7 +175,7 @@ var _loop_1 = function (s) {
                         if (s.read) {
                             args.push("--allow-read");
                         }
-                        args.push(path.join(testdataDir, s.async ? "exists.ts" : "exists_sync.ts"));
+                        args.push(path.join(testdataDir, s.async ? "exists.js" : "exists_sync.js"));
                         args.push(s.file);
                         stdout = Deno.run({
                             stdout: "piped",

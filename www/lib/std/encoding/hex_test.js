@@ -4,8 +4,8 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { assertEquals, assertThrows } from "../testing/asserts.ts";
-import { encodedLen, encode, encodeToString, decodedLen, decode, decodeString, errLength, errInvalidByte } from "./hex.ts";
+import { assertEquals, assertThrows } from "../testing/asserts.js";
+import { encodedLen, encode, encodeToString, decodedLen, decode, decodeString, errLength, errInvalidByte } from "./hex.js";
 function toByte(s) {
     return new TextEncoder().encode(s)[0];
 }

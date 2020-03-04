@@ -35,7 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 // Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.
-import { getFileInfoType } from "./utils.ts";
+import { getFileInfoType } from "./utils.js";
 var lstat = Deno.lstat, lstatSync = Deno.lstatSync, mkdir = Deno.mkdir, mkdirSync = Deno.mkdirSync;
 /**
  * Ensures that the directory exists.
