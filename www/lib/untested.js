@@ -1,11 +1,13 @@
 /***
 untested.js
 
-@summary provide common simple testing API for browser, deno and Nodejs
+@summary write tests in one simplified style across runtimes, make it simple to use via events for reporting, etc
 @since 2020-03-04T02:58:42.267Z
 @name untested.js
 
 @description
+write tests in one simplified style across runtimes, make it simple to use via events for reporting, etc
+
 Goals
  * Write tests in the same way and same assertions across runtimes Deno, browsers, Node.js
 	`untested.test(<test>)` Where untested maps directly to `Deno.test(<test>)`
@@ -15,7 +17,14 @@ Goals
  * Write tests and run them easily independent from test runners, reporters, etc reporting and observing events in the same simple way.
  * Make using this for tests as clear and simple as possible for current and forward looking usage.
  * communicate about tests via events on the global `window` or `process`
- * start running tests by dispatching event of type `untested-start` on window or process (process.emit(...))
+ * start running tests by:
+	1) dispatching event of type `untested-start` on window or process (process.emit(...))
+	2) include an event.detail.untested object with options for startup
+		detail.untested = {
+			url: '/path' // adjust path to libraries from the default './'
+			runTests: false // don't automatically run tests
+			runTests: {} // options passed directly to runTests()
+		}
 
 Assertions and tests based directly on Deno's implementation as it is both simple and clear.
 
@@ -97,8 +106,8 @@ const untested = {
 	// get the libraries required to work and related
 	,setup(url=this.url){
 		if(this.lib) return this.lib;
-		// provide Deno as global
-		let lib = self.Deno ? Promise.resolve(self.Deno)
+		// provide Deno as global, from the library
+		let lib = !self.Deno.stub ? Promise.resolve(self.Deno)
 			: (import(url+'/Deno.js')
 				.then(lib=>{
 					const Deno = lib.Deno;
@@ -111,32 +120,53 @@ const untested = {
 		;
 		return this.lib = lib.then(lib=>import(url+'/std/testing/asserts.js'))
 			.then(libs=>{
+				// also globals
 				Object.assign(self, libs);
 
-				this.test = untested;
+				this.dispatch('setup', 'loaded globals '+Object.keys(libs).sort().join(', '));
+
+				// now able to run tests so overwrite
+				this.test = this.testnow;
 				const pending = this.pending;
 				this.pending = [];
-
 				pending.forEach(test=>this.test(test));
 
 				return libs;
 			})
 		;
 	}
-	,untested(...test){
-		return Deno.test(...test);
+	// test() after setup
+	,testnow(...args){
+		return Deno.test(...args);
 	}
 	,pending: []
-	,pretest(...pending){
+	// test() before setup
+	,testwait(...pending){
 		this.pending.push(pending);
 		this.setup();
 	}
+	// listen for 'untested-start' event with possible options
 	,start(e={}){
-		const config = e && e.detail && e.detail.config;
+		const config = e && e.detail && e.detail.untested || {};
+		if(typeof config.url === 'string') this.url = config.url;
 		this.dispatch('start', config);
-		untested.runTests(config);
+		if(config.runTests !== false) untested.runTests(config.runTests);
 	}
 }
-untested.test = untested.pretest;
+untested.test = untested.testwait;
 self.addEventListener('untested-start', untested.start.bind(untested), {once: true});
+// make it possible to handle cases where the tests are written for Deno directly as a global and load after this
+// which should also setup asserts when runTests called TBD TODO
+if(!self.Deno){
+	self.Deno = {
+		// prevent race in setup
+		stub: true
+		,runTests(...args){
+			return untested.runTests(...args);
+		}
+		,test(...args){
+			return untested.test(...args);
+		}
+	};
+};
 export { untested as default, untested, self }
