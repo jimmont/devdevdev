@@ -37,7 +37,12 @@ img{border:1px solid #000;}
 <body>
 <h1>h1 testing</h1>
 <h1>h2 assert</h1>
+<form>open console then press <button>start</button></form>
 <script type=module>
-import untested from "./lib/untested.js";
+import { untested, self } from "./lib/untested.js";
+document.querySelector('form').addEventListener('submit', (e)=>{
+	e.preventDefault();
+	self.dispatchEvent(new CustomEvent('untested-start'));
+});
 </script>
 </body></html>

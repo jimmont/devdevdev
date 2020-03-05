@@ -139,4 +139,4 @@ const untested = {
 }
 untested.test = untested.pretest;
 self.addEventListener('untested-start', untested.start.bind(untested), {once: true});
-export { untested as default, untested }
+export { untested as default, untested, self }
