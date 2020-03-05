@@ -80,7 +80,7 @@ if(self.process && self.process.on){
 
 const untested = {
 	// where the libraries are
-	url: '/lib/'
+	url: './'
 	// dispatch this event-type and listen for it
 	,dispatch: function(type='', info){
 		self.dispatchEvent(new CustomEvent('untested', {detail: {type, info}, cancelable: true, bubbles: false}));
