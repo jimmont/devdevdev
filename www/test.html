@@ -6,8 +6,8 @@
 <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 <meta name="description" content="testing and assertions">
 <style>
-html, body{background-color:rgb(14, 61, 88);height:100%;width:100%;min-width:320px; -ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;-webkit-tap-highlight-color: transparent;}
-body {margin: 0;font-size:1rem;font-family:system, system-ui, -apple-system, ".SFNSText-Regular", "San Francisco", "Oxygen", "Ubuntu", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif; line-height: 1.3; background-image:linear-gradient(rgb(207, 237, 255), #fff 20%, #fff 80%,#fea);}
+html{background:#def;}
+body {margin:0;padding:3rem;font-size:1rem;font-family:system, system-ui, -apple-system, ".SFNSText-Regular", "San Francisco", "Oxygen", "Ubuntu", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif; line-height: 1.3; background-color:#fff;color:#000;min-height:100vh;min-width:100vw;box-sizing:border-box;}
 pre, code{font-size:inherit;font-family:"SF Mono", "Monaco", "Inconsolata", "Fira Mono", "Droid Sans Mono", "Source Code Pro", "Lucida Console", monospace;}
 img, iframe{border: 1px solid #000;}
 
@@ -35,9 +35,15 @@ img{border:1px solid #000;}
 </head>
 
 <body>
-<h1>h1 testing</h1>
-<h1>h2 assert</h1>
-<form>open console then press <button>start</button></form>
+<h1 wip>untested.js</h1>
+<h2>write tests in one simplified style across runtimes, make it simple to use via events for reporting, etc</h2>
+<p wip><i>in-progress</i> TODO better ui to demo triggering from a runner, handling output, examples</p>
+<p>feedback, criticism welcome via <a href="mailto:github&#64;jimmont.com?subject=untested.js">github&#64;jimmont.com</a></p>
+<hr>
+<form style="margin-bottom:.5rem">open console then press <button>start</button></form>
+<!--
+<iframe style="width: 100%; min-height: 10rem; max-height:40rem; border: 1px solid black; height: calc(30vh);" src="./lib/untested.js"></iframe>
+-->
 <script type=module>
 import { untested, self } from "./lib/untested.js";
 document.querySelector('form').addEventListener('submit', (e)=>{
