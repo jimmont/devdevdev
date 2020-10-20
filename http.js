@@ -3,7 +3,7 @@ const app = express();
 const pafs = require('path');
 const {URL} = require('url');
 const config = {
-	hosts: ['::']
+	hosts: '::'
 	,port: 8123
 	// https://nodejs.org/api/http.html#http_http_request_options_callback
 	,api: {protocol: 'http:', port: 9080, setHost: false}
@@ -45,7 +45,10 @@ process.argv.reduce(function configure(options, arg, i){
 	return options;
 }, config);
 
-console.log(`http in ${process.cwd()}
+config.hosts = config.hosts.split(/,\s*/)
+
+console.log(`__filename ${ __filename }
+serving http from dir ${process.cwd()}
 
 usage like:
 $ node ./http.js
