@@ -49,6 +49,14 @@ import { untested, self } from "./lib/untested.js";
 document.querySelector('form').addEventListener('submit', (e)=>{
 	e.preventDefault();
 	self.dispatchEvent(new CustomEvent('untested-start'));
+	self.addEventListener('untested', test);
 });
+
+function test(e){
+	const detail = e.detail;
+	console.log(e.type, detail);
+	switch(detail.type){
+	}
+}
 </script>
 </body></html>

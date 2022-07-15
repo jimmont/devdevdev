@@ -1,7 +1,7 @@
 /*
-deno run --allow-read --allow-net http.js www=../some/where
+deno run --allow-read=./ --allow-net=0.0.0.0:8000 ./tools/http.js -www=./
 
-deno run -A --unstable --inspect-brk ./http.js
+TODO reload on file watching patterns
 
 https://deno.land/x/oak
 https://deno.land/manual/runtime/program_lifecycle
@@ -9,51 +9,69 @@ https://doc.deno.land/builtin/stable
 
 EOL.LF .CRLF see https://deno.land/std/fs
 */
-import * as pafs from "https://deno.land/std/path/mod.ts";
+import * as paf from "https://deno.land/std/path/mod.ts";
 import { Application, Router, HttpError, send, Status } from "https://deno.land/x/oak/mod.ts";
 
+const script = new URL(import.meta.url).pathname;
 const config = {
-	hostname: 'localhost'
-	,port: 8123
-	// TODO
-	,api: {protocol: 'http:', port: 9080, setHost: false}
-	,redirect: /^\/(?:api)\b/
-/* TODO static resolves multiple directories
-	eg static: 'www,dist'
-	files: /www/styles.css, /dist/library-from-internet.js
-	both serve from root as /styles.css, /library-from-internet.js
-	,static: '.'
-	*/
+	host: 'localhost'
+	,port: 8000
 	,www: '.'
 	,index: 'index.html'
-
 	// default expiration caching (minimum 1 second);
-	,expires: 'private, max-age=7, s-maxage=8'
+	,expires: 'private, max-age=1, s-maxage=3'
 };
-
-Deno.args.reduce(function configure(options, arg, i){
-	// allow name=value or name:value
-	var parts = arg.match(/^-*(?:http-?)?([a-z][a-z0-9]+)(?:[=:]?(.+))?/i);
+Deno.args.reduce(function _options_(config, arg, i){
+	// allow -name=value or -name:value, with any leading '-'
+	const parts = arg.match(/^-+([a-z][a-z0-9]+)(?:[=:]?(.+))?/i);
 	if(parts){
-		let name = parts[1];
-		let value = (parts[2] || '').trim();
-		options[ name ] = value;
+		const [all, name, value = ''] = parts;
+		// can only set predefined properties
+		if(config[name] === undefined){
+			return config;
+		}
+
+		let val = value.trim();
+		switch(typeof config[ name ]){
+		case 'number':
+			val = Number(val);
+			if(isNaN(val)){
+				console.warn(`skip invalid option ${ name }, expected a number and instead got "${value}" as ${ val }`);
+				return config;
+			}
+			config[ name ] = val;
+		break;
+		case 'boolean':
+			if(val && /^(?:0|false)/i.test(val)){
+				config[ name ] = false;
+			}else if(val !== ''){
+				config[ name ] = Boolean(val);
+			}else{
+				// having the option present suggests making it true
+				config[ name ] = true;
+			}
+		break;
+		default:
+			config[ name ] = val;;
+		};
 	}
-	return options;
+
+	return config;
+
 }, config);
 
 // NOTE resolve(Deno.cwd(), '/root') => '/root'
-config.root = pafs.resolve(Deno.cwd(), config.www);
+config.root = paf.resolve(Deno.cwd(), config.www);
 config.userAgent = `Deno/${Deno.version.deno} V8/${Deno.version.v8} TS/${Deno.version.typescript} ${Deno.build.target}`;
 
 console.log(`pid ${ Deno.pid }
-$0 ${ import.meta.url }
+$0 ${ script }
 cwd ${ Deno.cwd() }
 
 usage like:
-$ deno run -A ./http.js
+$ deno run --allow-read=./ --allow-net=0.0.0.0:8000 ./tools/http.js -www=./
 
-overwrite any option with pattern "name='value'" or "www=../www"
+overwrite any option with pattern "-name='value'"
 
 ${ JSON.stringify(config, (key, val)=>{
 	switch(typeof val){
@@ -75,32 +93,6 @@ ${ JSON.stringify(config, (key, val)=>{
 const app = new Application(config);
 const router = new Router();
 
-// TODO
-router.get('/events', (context) => {
-//	const headers = new Headers([['content-type', 'text/event-stream']]);
-	const target = context.sendEvents();//{ headers });
-	target.addEventListener('close', e => {
-		console.log('bye! no more /events for you');
-	});
-	/*
-	target.addEventListener('close', e => {
-		// cleanup
-	});
-
-	on client:
-	const source = new EventSource("/events");
-	source.addEventListener("ping", (evt) => {
-		console.log(evt.data); // should log a string of the pre-parsed JSON above/below
-	});
-	*/
-	target.dispatchMessage({text: 'messages'});
-	setTimeout(()=>{
-		target.dispatchMessage({text: 'message2'});
-	}, 1000)
-	// or close the connection when desired: await target.close();
-});
-
-
 const charset = '; charset=utf-8';
 const mimetypes = {
 	css: `text/css${ charset }`
@@ -115,41 +107,54 @@ const mimetypes = {
 };
 
 // general error handling including unhandled middleware errors (500)
-app.use(async ({response, request}, next) => {
+app.use(async (context, next) => {
+	const {response, request} = context;
 	try{
 		await next();
 	}catch(err){
-		const status = err instanceof HttpError ? err.status : 500;
-		// respect error status codes set by other middleware
-		if((response.status || 0) < 400){
-			response.status = status;
-		};
-		log(status, request.method, request.url.href, request.user, request.headers.get('user-agent'), request.ip);
+		let status = err instanceof HttpError ? err.status : 500;
+		const { pathname } = request.url;
 		// adjust response to fit requested mimetype
-		let ext = request.url.pathname.split('?')[0].split('.').pop().toLowerCase();
-		
-		let type = mimetypes[ ext ] || mimetypes[ ( ext = 'html' ) ];
-		response.type = type;
+		let ext = paf.extname(pathname).toLowerCase();
 
-		// short caches on errors
-		response.headers.set('Cache-Control', config.expires);
+		if(!ext && !pathname.endsWith('/')){
+			// single-page-app SPA pattern
+			await send(context, config.index, config);
+			response.status = 200;
+		}else{
+			// respect error status codes set by other middleware
+			if((response.status || 0) < 400){
+				response.status = status;
+			};
+			log(status, request.method, request.url.href, request.user, request.headers.get('user-agent'), request.ip);
 
-		const msg = (err.message || '').slice(0, 3000);
+			let type = mimetypes[ ext ] || mimetypes[ ( ext = 'html' ) ];
+			response.type = type;
 
-		if(err.expose){
-			response.headers.set('X-appmsg', msg);
-		};
+			// short caches on errors
+			response.headers.set('Cache-Control', config.expires);
 
-		// send an appropriate response
-		switch(ext){
-		case 'html':
-		response.body = `<!doctype html>
+			const msg = (err.message || '').slice(0, 3000);
+
+			if(err.expose){
+				response.headers.set('X-appmsg', msg);
+			};
+
+			// setting a body resets the status to 200 oak/issues/448
+			const _status = response.status;
+			// send an appropriate response
+			switch(ext){
+			case 'html':
+			response.body = `<!doctype html>
 <html><body>
 <p>${status} ${ Status[status] || 'Internal Server Error' }</p>
 </body></html>`;
-		break;
-		default:
-		response.body = '';
+			break;
+			default:
+			response.body = '';
+			}
+			// restore status
+			response.status = _status;
 		}
 	}
 });
@@ -179,7 +184,7 @@ app.use(router.allowedMethods());
 
 // static content
 app.use(async context => {
-	// config = {root: pafs.resolve(Deno.cwd(), '....'), index: 'index.html'}
+	// config = {root: paf.resolve(Deno.cwd(), '....'), index: 'index.html'}
 	await send(context, context.request.url.pathname, config);
 });
 
@@ -188,32 +193,12 @@ app.addEventListener('error', (event)=>{
 	log('000', 'ERROR', `${ event.error }`, undefined, config.userAgent);
 });
 app.addEventListener('listen', (server)=>{
-	log('000', 'START', `${ server.secure ? 'https':'http' }://${ server.hostname }:${ server.port }`, undefined, config.userAgent);
+	log('000', 'START', `${ server.secure ? 'https':'http' }://${ server.hostname || 'localhost' }:${ server.port }`, undefined, config.userAgent);
 });
-
-/*
-// Deno.Signal is currently --unstable
-// works though I don't know the signals well: inspect Deno.Signal for the hash
-// https://en.wikipedia.org/wiki/Signal_(IPC)
-// signal.dispose() to stop watching
-async function onSignal(it){
-	const [name, num] = it;
-	for await(const _ of Deno.signal(num)){
-		console.log(`Deno pid ${ Deno.pid } bye ${name}`);
-		Deno.exit();
-	}
-};
-
-Object.entries(Deno.Signal).filter(it=>{
-	const [name, num] = it;
-	let ok = (num !== 4 && num !== 9 && num !== 8 && num !== 11 && num !== 17);
-	return ok && name.startsWith('SIG');
-}).forEach(onSignal);
-*/
 
 const whenClosed = app.listen(config);
 
 await whenClosed;
 // this never happens
-log('000', 'CLOSE', `${ server.secure ? 'https':'http' }://${ server.hostname }:${ server.port }`, undefined, config.userAgent);
+log('000', 'CLOSE', `${ server.secure ? 'https':'http' }://${ server.hostname || 'localhost' }:${ server.port }`, undefined, config.userAgent);
 
